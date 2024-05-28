@@ -4,6 +4,7 @@ import "../App.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const handleLogin = async () => {
     try {
@@ -19,16 +20,17 @@ const Login = () => {
       });
       if (response.ok) {
         alert("Login successful!");
+        const data = await response.json();
+        setUsername(data.user.nome);
       } else {
         alert("Login failed! Please check your credentials and try again.");
       }
-      const data = await response.json();
-      console.log(data); // Handle response accordingly
     } catch (error) {
       console.error("Error:", error);
       alert("Login failed! Please try again.");
     }
   };
+
   return (
     <div className="pokedex-container">
       <div className="pokedex-content">
@@ -50,6 +52,7 @@ const Login = () => {
         <button onClick={handleLogin} className="pokedex-button">
           Login
         </button>
+        {username && <p className="pokedex-greeting">Hello, {username}</p>}{" "}
       </div>
     </div>
   );
