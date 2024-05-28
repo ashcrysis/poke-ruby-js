@@ -29,23 +29,28 @@ const Login = () => {
       alert("Login failed! Please try again.");
     }
   };
-
   return (
-    <div>
-      <h2>Login</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>Login</button>
+    <div className="pokedex-container">
+      <div className="pokedex-content">
+        <h2 className="pokedex-title">Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="pokedex-input"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="pokedex-input"
+        />
+        <button onClick={handleLogin} className="pokedex-button">
+          Login
+        </button>
+      </div>
     </div>
   );
 };
