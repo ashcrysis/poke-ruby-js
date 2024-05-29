@@ -5,7 +5,7 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allPokemonData, setAllPokemonData] = useState([]);
   const [favorites, setFavorites] = useState([]);
-
+  const [userData, setuserData] = useState([]);
   useEffect(() => {
     const fetchAllPokemon = async () => {
       try {
@@ -24,7 +24,23 @@ const Search = () => {
 
     fetchAllPokemon();
   }, []);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/v2/users/current");
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const data = await response.json();
+        setuserData(data.user);
+        console.log("User Data:", data.user); // Logging user data
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
+    fetchUserData();
+  }, []);
   const filterPokemon = (query) => {
     return allPokemonData.filter((pokemon) => {
       return (

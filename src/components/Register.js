@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const Register = () => {
@@ -10,6 +11,7 @@ const Register = () => {
   const [numero, setNumero] = useState("");
   const [complemento, setComplemento] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     try {
@@ -33,6 +35,7 @@ const Register = () => {
       const data = await response.json();
       if (response.ok) {
         alert("Registration successful!");
+        navigate("/");
       } else {
         alert("Registration failed! Please try again.");
       }
@@ -105,6 +108,9 @@ const Register = () => {
         />
         <button onClick={handleRegister} className="pokedex-button">
           Register
+        </button>
+        <button onClick={() => navigate("/")} className="pokedex-button">
+          Have an account? Login
         </button>
       </div>
     </div>

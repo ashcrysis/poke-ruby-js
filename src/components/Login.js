@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-
+  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
       const response = await fetch("http://localhost:3001/v2/users/sign_in", {
@@ -22,6 +23,7 @@ const Login = () => {
         alert("Login successful!");
         const data = await response.json();
         setUsername(data.user.nome);
+        navigate("/search");
       } else {
         alert("Login failed! Please check your credentials and try again.");
       }
@@ -53,6 +55,12 @@ const Login = () => {
           Login
         </button>
         {username && <p className="pokedex-greeting">Hello, {username}</p>}{" "}
+        <button
+          onClick={() => navigate("/register")}
+          className="pokedex-button"
+        >
+          Don't have an account? Register
+        </button>
       </div>
     </div>
   );
