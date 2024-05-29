@@ -63,35 +63,35 @@ const Register = () => {
         />
         <input
           type="text"
-          placeholder="Telefone"
+          placeholder="Phone"
           value={telefone}
           onChange={(e) => setTelefone(e.target.value)}
           className="pokedex-input"
         />
         <input
           type="text"
-          placeholder="CEP"
+          placeholder="Zip/Postal Code"
           value={cep}
           onChange={(e) => setCep(e.target.value)}
           className="pokedex-input"
         />
         <input
           type="text"
-          placeholder="Rua"
+          placeholder="Street"
           value={rua}
           onChange={(e) => setRua(e.target.value)}
           className="pokedex-input"
         />
         <input
           type="text"
-          placeholder="Número"
+          placeholder="Number"
           value={numero}
           onChange={(e) => setNumero(e.target.value)}
           className="pokedex-input"
         />
         <input
           type="text"
-          placeholder="Complemento"
+          placeholder="Add-on address"
           value={complemento}
           onChange={(e) => setComplemento(e.target.value)}
           className="pokedex-input"
