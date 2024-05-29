@@ -9,8 +9,9 @@ const Search = () => {
     const fetchAllPokemon = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/v2/pokemons/fetch_all"
+          `${process.env.REACT_APP_API_URL}/pokemons/fetch_all`
         );
+        console.log(process.env);
         if (!response.ok) {
           throw new Error("Failed to fetch Pokémon data");
         }
