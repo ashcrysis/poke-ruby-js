@@ -5,13 +5,19 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allPokemonData, setAllPokemonData] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const authorizationHeader = localStorage.getItem("authorizationHeader");
+
   useEffect(() => {
     const fetchAllPokemon = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/pokemons/fetch_all`
+          `${process.env.REACT_APP_API_URL}/v2/pokemons/fetch_all`,
+          {
+            headers: {
+              Authorization: `Bearer ${authorizationHeader}`,
+            },
+          }
         );
-        console.log(process.env);
         if (!response.ok) {
           throw new Error("Failed to fetch Pokémon data");
         }

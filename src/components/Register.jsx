@@ -27,7 +27,7 @@ const Register = () => {
           password,
         },
       });
-      const response = await fetch("http://localhost:3001/v2/users/create", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: requestBody,

@@ -9,20 +9,21 @@ const Login = () => {
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:3001/v2/users/sign_in", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+        body: JSON.stringify({ user: { email, password } }),
       });
       if (response.ok) {
+        const authorizationHeader = response.headers.get("Authorization");
+        localStorage.setItem(
+          "authorizationHeader",
+          authorizationHeader.split(" ")[1]
+        );
         alert("Login successful!");
         const data = await response.json();
-        setUsername(data.user.nome);
         navigate("/search");
       } else {
         alert("Login failed! Please check your credentials and try again.");
