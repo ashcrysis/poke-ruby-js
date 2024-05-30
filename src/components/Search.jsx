@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allPokemonData, setAllPokemonData] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const navigate = useNavigate();
   const authorizationHeader = localStorage.getItem("authorizationHeader");
+  if (authorizationHeader == null) {
+    alert("You are not allowed to access this page before logging in.");
+    navigate("/");
+  }
 
   useEffect(() => {
     const fetchAllPokemon = async () => {
