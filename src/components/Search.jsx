@@ -99,8 +99,8 @@ const Search = ({ setPokemonData }) => {
 
   return (
     <div>
-      <h2>Favorites List</h2>
       <div className="favorites-container">
+        <h2>Favorites List</h2>
         {favorites.map((favorite) => (
           <a
             key={favorite.name}

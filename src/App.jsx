@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Search from "./components/Search";
 import Render from "./components/Render";
+import User from "./components/User";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   const [pokemonData, setPokemonData] = useState(null);
@@ -22,6 +23,7 @@ function App() {
             element={
               <div className="App">
                 <Search setPokemonData={handlePokemonData} />
+                <User />
                 {pokemonData && <Render {...pokemonData} />}
               </div>
             }
