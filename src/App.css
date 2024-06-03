@@ -56,7 +56,9 @@ body {
 
 .search-container {
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  margin-left: 2.4%;
+  width: 71%;
   margin-right: 8%;
 }
 
