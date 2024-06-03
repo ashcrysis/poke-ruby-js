@@ -3,13 +3,8 @@ import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Search from "./components/Search";
-import Render from "./components/render";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import Render from "./components/Render";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   const [pokemonData, setPokemonData] = useState(null);
 
