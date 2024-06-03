@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
-const Search = () => {
+const Search = ({ setPokemonData }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allPokemonData, setAllPokemonData] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -52,25 +52,45 @@ const Search = () => {
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
+  const handlePokemonClick = async (pokemonUrl) => {
+    try {
+      const response = await fetch(pokemonUrl);
+      if (!response.ok) {
+        throw new Error("Failed to fetch Pokémon data");
+      }
+      const data = await response.json();
+      setPokemonData({
+        name: data.name,
+        types: data.types.map((typeInfo) => typeInfo.type.name),
+        image: data.sprites.front_default,
+        height: data.height / 10,
+        weight: data.weight / 10,
+        moves: data.moves
+          .slice(0, 2)
+          .map((move) => capitalizeFirstLetter(move.move.name))
+          .join(", "),
+      });
+    } catch (error) {
+      console.error("Error fetching Pokémon data:", error);
+    }
+  };
 
   const displayResults = (pokemonList) => {
     return pokemonList.map((pokemon) => {
       const pokemonId = pokemon.url.split("/").slice(-2, -1)[0];
       return (
-        <a
-          key={pokemon.name}
-          href={`/v1/pokemon?pokemon_name=${pokemon.name.toLowerCase()}`}
-          style={{ textDecoration: "none" }}
+        <div
+          key={pokemonId}
+          className="card"
+          onClick={() => handlePokemonClick(pokemon.url)}
         >
-          <div className="card">
-            <div className="pokeball-icon"></div>
-            <h2>{capitalizeFirstLetter(pokemon.name)}</h2>
-            <img
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`}
-              alt={pokemon.name}
-            />
-          </div>
-        </a>
+          <div className="pokeball-icon"></div>
+          <h2>{capitalizeFirstLetter(pokemon.name)}</h2>
+          <img
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`}
+            alt={pokemon.name}
+          />
+        </div>
       );
     });
   };
