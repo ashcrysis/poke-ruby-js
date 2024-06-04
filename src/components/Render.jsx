@@ -6,29 +6,35 @@ const Render = ({ name, types, image, height, weight, moves }) => {
   const [bgImage, setBgImage] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchPokemonSpeciesData = async (pokemonName) => {
+      const authorizationHeader = localStorage.getItem("authorizationHeader");
+      if (!authorizationHeader) {
+        console.error("Authorization token not found");
+        return;
+      }
+      console.log(pokemonName);
+      const apiUrl = `${process.env.REACT_APP_API_URL}/v2/pokemons/species?name=${pokemonName}`;
+
       try {
-        let apiUrl;
-        if (name.includes("-mega") || name.includes("-gmax")) {
-          const baseName = name.split("-")[0];
-          apiUrl = `${process.env.REACT_APP_POKEAPI_API_URL}pokemon-species/${baseName}`;
-        } else {
-          apiUrl = `${process.env.REACT_APP_POKEAPI_API_URL}pokemon-species/${name}`;
-        }
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authorizationHeader}`,
+          },
+        });
+
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
-        const speciesData = await response.json();
-        const englishDescription = findEnglishDescription(speciesData);
-        setDescription(englishDescription.replace("", " "));
+
+        const data = await response.json();
+        setDescription(data.description);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setDescription("Error fetching data. Please try again later.");
       }
     };
 
-    fetchData();
+    fetchPokemonSpeciesData(name);
 
     import(`../poke-bgs/${types[0]}.png`)
       .then((image) => setBgImage(image.default))
