@@ -90,8 +90,8 @@ body {
 }
 .user-component {
   position: fixed;
-  top: 1%;
-  left: 93%;
+  top: -2%;
+  left: 87%;
 }
 .clear-favorites-button {
   margin-left: 2.4%;
@@ -153,13 +153,13 @@ body {
   justify-content: center;
   position: fixed;
   top: 10%;
-  left: 65%;
+  left: 75.5%;
 }
 .results-container {
   display: flex;
   flex-wrap: wrap;
-  width: 65%;
-  padding: 1.8%;
+  width: 84%;
+  padding: 1.6%;
 }
 .pokeball-icon {
   position: absolute;
