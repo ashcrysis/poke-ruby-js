@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
+// @ts-ignore
 import defaultBg from "../poke-bgs/normal.png";
-const Render = ({ name, types, image, height, weight, moves }) => {
+interface RenderProps {
+  name: string;
+  types: string[];
+  image: string;
+  height: number;
+  weight: number;
+  moves: string[];
+}
+const Render: React.FC<RenderProps> = ({
+  name,
+  types,
+  image,
+  height,
+  weight,
+  moves,
+}) => {
   const [description, setDescription] = useState("Loading...");
   const [bgImage, setBgImage] = useState(null);
 
   useEffect(() => {
-    const fetchPokemonSpeciesData = async (pokemonName) => {
+    const fetchPokemonSpeciesData = async (pokemonName: string) => {
       const authorizationHeader = localStorage.getItem("authorizationHeader");
       if (!authorizationHeader) {
         console.error("Authorization token not found");
@@ -72,11 +88,20 @@ const Render = ({ name, types, image, height, weight, moves }) => {
     </div>
   );
 };
+interface FlavorTextEntry {
+  flavor_text: string;
+  language: {
+    name: string;
+  };
+}
 
-export const capitalizeFirstLetter = (string) => {
+interface SpeciesData {
+  flavor_text_entries: FlavorTextEntry[];
+}
+export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
-const findEnglishDescription = (speciesData) => {
+const findEnglishDescription = (speciesData: SpeciesData) => {
   if (
     speciesData &&
     speciesData.flavor_text_entries &&

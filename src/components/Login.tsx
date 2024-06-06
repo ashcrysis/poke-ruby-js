@@ -18,13 +18,15 @@ const Login = () => {
       });
       if (response.ok) {
         const authorizationHeader = response.headers.get("Authorization");
-        localStorage.setItem(
-          "authorizationHeader",
-          authorizationHeader.split(" ")[1]
-        );
-        alert("Login successful!");
-        const data = await response.json();
-        navigate("/search");
+        if (authorizationHeader) {
+          localStorage.setItem(
+            "authorizationHeader",
+            authorizationHeader.split(" ")[1]
+          );
+          alert("Login successful!");
+          const data = await response.json();
+          navigate("/search");
+        }
       } else {
         alert("Login failed! Please check your credentials and try again.");
       }
