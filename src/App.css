@@ -85,9 +85,7 @@ body {
 .search-container input::placeholder {
   color: #888;
 }
-.logout-button {
-  margin-left: -5%;
-}
+
 .user-component {
   position: fixed;
   top: -2%;
@@ -152,7 +150,7 @@ body {
   color: #ffffff;
   justify-content: center;
   position: fixed;
-  top: 10%;
+  top: 12.5%;
   left: 75.5%;
 }
 .results-container {
@@ -169,6 +167,34 @@ body {
   background-size: cover;
   opacity: 0.5;
   transition: transform 0.5s ease;
+}
+.logout-button {
+  background-color: #7c2923;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: -5%;
+  border-radius: 5px;
+  position: relative;
+}
+
+.logout-button:hover {
+  background-color: #501b1b;
+}
+
+.logout-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url("./Pokeball.png");
+  background-size: cover;
+  opacity: 0.5;
 }
 .card:hover > .pokeball-icon {
   animation: spin 1s infinite linear;
