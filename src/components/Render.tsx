@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
 // @ts-ignore
-import defaultBg from "../poke-bgs/normal.png";
+//import defaultBg from "../poke-bgs/normal.png";
 interface RenderProps {
   name: string;
   types: string[];
@@ -19,7 +19,7 @@ const Render: React.FC<RenderProps> = ({
   moves,
 }) => {
   const [description, setDescription] = useState("Loading...");
-  const [bgImage, setBgImage] = useState(null);
+  const [bgImage, setBgImage] = useState("");
 
   useEffect(() => {
     const fetchPokemonSpeciesData = async (pokemonName: string) => {
@@ -28,7 +28,6 @@ const Render: React.FC<RenderProps> = ({
         console.error("Authorization token not found");
         return;
       }
-      console.log(pokemonName);
       const apiUrl = `${process.env.REACT_APP_API_URL}/v2/pokemons/species?name=${pokemonName}`;
 
       try {
@@ -49,15 +48,7 @@ const Render: React.FC<RenderProps> = ({
         console.error("Error fetching data:", error);
       }
     };
-
     fetchPokemonSpeciesData(name);
-
-    import(`../poke-bgs/${types[0]}.png`)
-      .then((image) => setBgImage(image.default))
-      .catch((error) => {
-        console.error("Error importing image:", error);
-        setBgImage(defaultBg);
-      });
   }, [name, types]);
   const displayTypes = types.slice(0, 2);
   return (
@@ -65,7 +56,12 @@ const Render: React.FC<RenderProps> = ({
       <div id="pokeDataHolder">
         <div>
           <h1 id="pokemon-name">{capitalizeFirstLetter(name)}</h1>
-          {bgImage && <img id="pokebg" src={bgImage} alt="" />}
+          <div
+            id="pokebg"
+            style={{
+              backgroundImage: `url("../poke-bgs/${types[0]}.png")`,
+            }}
+          />
           <img id="pokeImage" src={image} alt={name} />
           <p id="typepoke">
             Types: {capitalizeFirstLetter(displayTypes.join(", "))}

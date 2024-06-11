@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./App.css";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Search from "./components/Search";
-import Render from "./components/Render";
-import User from "./components/User";
+import Login from "./components/Login.tsx";
+import Register from "./components/Register.tsx";
+import Search from "./components/Search.jsx";
+import Render from "./components/Render.tsx";
+import User from "./components/User.tsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   const [pokemonData, setPokemonData] = useState(null);
