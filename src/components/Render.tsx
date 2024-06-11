@@ -20,7 +20,10 @@ const Render: React.FC<RenderProps> = ({
 }) => {
   const [description, setDescription] = useState("Loading...");
   const [bgImage, setBgImage] = useState("");
-
+  const loadBgImg = async (type?: string) => {
+    const logo = await import(`../poke-bgs/${type || "normal"}.png`);
+    setBgImage(logo.default);
+  };
   useEffect(() => {
     const fetchPokemonSpeciesData = async (pokemonName: string) => {
       const authorizationHeader = localStorage.getItem("authorizationHeader");
@@ -49,6 +52,7 @@ const Render: React.FC<RenderProps> = ({
       }
     };
     fetchPokemonSpeciesData(name);
+    loadBgImg(types[0]);
   }, [name, types]);
   const displayTypes = types.slice(0, 2);
   return (
@@ -56,12 +60,7 @@ const Render: React.FC<RenderProps> = ({
       <div id="pokeDataHolder">
         <div>
           <h1 id="pokemon-name">{capitalizeFirstLetter(name)}</h1>
-          <div
-            id="pokebg"
-            style={{
-              backgroundImage: `url("../poke-bgs/${types[0]}.png")`,
-            }}
-          />
+          <img id="pokebg" src={bgImage} alt="" />
           <img id="pokeImage" src={image} alt={name} />
           <p id="typepoke">
             Types: {capitalizeFirstLetter(displayTypes.join(", "))}
