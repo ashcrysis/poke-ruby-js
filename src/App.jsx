@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import Login from "./components/Login.tsx";
 import Register from "./components/Register.tsx";
-import Search from "./components/Search.jsx";
+import Search from "./components/Search/Search.tsx";
 import Render from "./components/Render.tsx";
 import User from "./components/User.tsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

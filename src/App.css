@@ -59,7 +59,7 @@ body {
   display: flex;
   justify-content: left;
   margin-left: 2.4%;
-  width: 71%;
+  min-width: 71%;
   margin-right: 8%;
 }
 

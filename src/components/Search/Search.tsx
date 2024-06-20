@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import "../App.css";
+import "../../App.css";
 
 interface Pokemon {
   name: string;
@@ -32,7 +32,7 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
   const navigate = useNavigate();
   const authorizationHeader = localStorage.getItem("authorizationHeader");
 
-  if (authorizationHeader == null) {
+  if (authorizationHeader == null || authorizationHeader === "") {
     alert("You are not allowed to access this page before logging in.");
     navigate("/");
   }
@@ -127,7 +127,7 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
 
   return (
     <div>
-      <div className="favorites-container">
+      {/* <div className="favorites-container">
         <h2>Favorites List</h2>
         {favorites.map((favorite) => (
           <a
@@ -141,10 +141,11 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
             </div>
           </a>
         ))}
-      </div>
-      <button onClick={clearFavorites} className="clear-favorites-button">
+        <button onClick={clearFavorites} className="clear-favorites-button"> 
+      
         Clear All Favorites
       </button>
+      */}
       <div className="search-container">
         <input
           type="text"
