@@ -25,6 +25,7 @@ const UserComponent = () => {
 
   const onLogout = () => {
     const token = localStorage.getItem("authorizationHeader");
+    localStorage.setItem("authorizationHeader", "");
 
     fetch(`${process.env.REACT_APP_API_URL}/logout`, {
       method: "DELETE",

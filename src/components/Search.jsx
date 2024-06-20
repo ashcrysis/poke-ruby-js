@@ -8,7 +8,7 @@ const Search = ({ setPokemonData }) => {
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
   const authorizationHeader = localStorage.getItem("authorizationHeader");
-  if (authorizationHeader == null) {
+  if (authorizationHeader == null || authorizationHeader == "") {
     alert("You are not allowed to access this page before logging in.");
     navigate("/");
   }
