@@ -1,38 +1,117 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.pokedex-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  height: 100vh;
+  background-color: #e44444;
 }
 
-.App-link {
-  color: #61dafb;
+.pokedex-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 40%;
 }
 
-@keyframes App-logo-spin {
+.pokedex-title {
+  color: #e53935;
+}
+
+.pokedex-input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.pokedex-greeting {
+  color: black;
+}
+.pokedex-button {
+  background-color: #e53935;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.pokedex-button:hover {
+  background-color: #c62828;
+}
+body {
+  background-color: #e44444;
+  color: #fff;
+}
+
+.search-container {
+  margin-bottom: 20px;
+  outline: none;
+  padding: 8px 20px;
+  color: #000;
+  font-size: 30px;
+  width: 100px;
+  height: auto;
+}
+.favorite-link {
+  text-decoration: none;
+}
+.favorites-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  text-decoration: none;
+}
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.pokeball-icon {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-image: url("./Pokeball.png");
+  background-size: cover;
+  opacity: 0.5;
+  transition: transform 0.5s ease;
+}
+.card:hover > .pokeball-icon {
+  animation: spin 1s infinite linear;
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+}
+
+@keyframes spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
+}
+
+.results-container:hover {
+  background-color: rgb(214, 64, 64);
+}
+
+.card {
+  width: 200px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  color: white;
+}
+.card img {
+  max-width: 100px;
 }
