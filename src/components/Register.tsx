@@ -37,7 +37,16 @@ const Register = () => {
         alert("Registration successful!");
         navigate("/");
       } else {
-        alert("Registration failed! Please try again.");
+        switch (response.status) {
+          default:
+            alert("Registration failed! \nError: " + data.status.message);
+            break;
+          case 500:
+            alert(
+              "Ops, something went wrong, we're aware of the problem and will fix the issue soon as possible"
+            );
+            break;
+        }
       }
       console.log("Response Data:", data);
     } catch (error) {
