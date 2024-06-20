@@ -2,27 +2,50 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import { register } from "../components/services/register.ts";
+
+interface IFormData {
+  email: string;
+  nome: string;
+  telefone: string;
+  cep: string;
+  rua: string;
+  numero: string;
+  complemento: string;
+  password: string;
+}
+
 const Register = () => {
-  const [email, setEmail] = useState("");
-  const [nome, setNome] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [cep, setCep] = useState("");
-  const [rua, setRua] = useState("");
-  const [numero, setNumero] = useState("");
-  const [complemento, setComplemento] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState<IFormData>({
+    email: "",
+    nome: "",
+    telefone: "",
+    cep: "",
+    rua: "",
+    numero: "",
+    complemento: "",
+    password: "",
+  });
+
   const navigate = useNavigate();
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  };
 
   const handleRegister = async () => {
     var output = await register(
-      email,
-      nome,
-      telefone,
-      cep,
-      rua,
-      numero,
-      complemento,
-      password
+      formData.email,
+      formData.nome,
+      formData.telefone,
+      formData.cep,
+      formData.rua,
+      formData.numero,
+      formData.complemento,
+      formData.password
     );
     if (output) {
       navigate("/");
@@ -36,57 +59,57 @@ const Register = () => {
         <input
           type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          id="email"
+          onChange={handleInputChange}
           className="pokedex-input"
         />
         <input
           type="text"
           placeholder="Name"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
+          id="nome"
+          onChange={handleInputChange}
           className="pokedex-input"
         />
         <input
           type="text"
           placeholder="Phone"
-          value={telefone}
-          onChange={(e) => setTelefone(e.target.value)}
+          id="telefone"
+          onChange={handleInputChange}
           className="pokedex-input"
         />
         <input
           type="text"
           placeholder="Zip/Postal Code"
-          value={cep}
-          onChange={(e) => setCep(e.target.value)}
+          id="cep"
+          onChange={handleInputChange}
           className="pokedex-input"
         />
         <input
           type="text"
           placeholder="Street"
-          value={rua}
-          onChange={(e) => setRua(e.target.value)}
+          id="rua"
+          onChange={handleInputChange}
           className="pokedex-input"
         />
         <input
           type="text"
           placeholder="Number"
-          value={numero}
-          onChange={(e) => setNumero(e.target.value)}
+          id="numero"
+          onChange={handleInputChange}
           className="pokedex-input"
         />
         <input
           type="text"
           placeholder="Add-on address"
-          value={complemento}
-          onChange={(e) => setComplemento(e.target.value)}
+          id="complemento"
+          onChange={handleInputChange}
           className="pokedex-input"
         />
         <input
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          id="password"
+          onChange={handleInputChange}
           className="pokedex-input"
         />
         <button onClick={handleRegister} className="pokedex-button">

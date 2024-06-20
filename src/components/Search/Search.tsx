@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
-
+import axios from "axios";
 interface Pokemon {
   name: string;
   url: string;
@@ -40,7 +40,7 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
   useEffect(() => {
     const fetchAllPokemon = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/v2/pokemons/fetch_all`,
           {
             headers: {
@@ -48,10 +48,12 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
             },
           }
         );
-        if (!response.ok) {
+
+        if (response.status !== 200) {
           throw new Error("Failed to fetch Pokémon data");
         }
-        const data = await response.json();
+
+        const data = response.data;
         setAllPokemonData(data.results);
       } catch (error) {
         console.error(error);
