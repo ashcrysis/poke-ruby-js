@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
-
+import { register } from "../components/services/register.ts";
 const Register = () => {
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
@@ -14,44 +14,18 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    try {
-      const requestBody = JSON.stringify({
-        user: {
-          email,
-          nome,
-          telefone,
-          cep,
-          rua,
-          numero,
-          complemento,
-          password,
-        },
-      });
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: requestBody,
-      });
-      const data = await response.json();
-      if (response.ok) {
-        alert("Registration successful!");
-        navigate("/");
-      } else {
-        switch (response.status) {
-          default:
-            alert("Registration failed! \nError: " + data.status.message);
-            break;
-          case 500:
-            alert(
-              "Ops, something went wrong, we're aware of the problem and will fix the issue soon as possible"
-            );
-            break;
-        }
-      }
-      console.log("Response Data:", data);
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Registration failed! Please try again.");
+    var output = await register(
+      email,
+      nome,
+      telefone,
+      cep,
+      rua,
+      numero,
+      complemento,
+      password
+    );
+    if (output) {
+      navigate("/");
     }
   };
 
