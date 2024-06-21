@@ -134,6 +134,7 @@ const Search: React.FC = () => {
       />
 
       <Modal
+        title={pokemonData ? capitalizeFirstLetter(pokemonData.name) : ""}
         open={!!pokemonData}
         footer={null}
         onCancel={() => setPokemonData(null)}
