@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
-import { register } from "../components/services/register.ts";
+import { register } from "../services/register.ts";
 
 interface IFormData {
   email: string;

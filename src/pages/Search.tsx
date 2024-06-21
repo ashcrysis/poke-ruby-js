@@ -1,13 +1,18 @@
 import React, { useState, useEffect, ChangeEvent, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../App.css";
+import { Modal } from "antd";
+
+import Render from "../components/PokemonData/index.tsx";
+import PokemonList from "../components/PokemonList/index.tsx";
 import { fetchAllPokemons } from "../services/search.ts";
-interface Pokemon {
+
+import "../App.css";
+export interface Pokemon {
   name: string;
   url: string;
 }
 
-interface PokemonData {
+export interface IPokemonData {
   name: string;
   types: string[];
   image: string;
@@ -16,19 +21,16 @@ interface PokemonData {
   moves: string;
 }
 
-interface Favorite {
-  name: string;
-  image_url: string;
-}
+// interface Favorite {
+//   name: string;
+//   image_url: string;
+// }
 
-interface SearchProps {
-  setPokemonData: (data: PokemonData) => void;
-}
-
-const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
+const Search: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [allPokemonData, setAllPokemonData] = useState<Pokemon[]>([]);
-  const [favorites, setFavorites] = useState<Favorite[]>([]);
+  const [pokemonData, setPokemonData] = useState<IPokemonData | null>(null);
+  // const [favorites, setFavorites] = useState<Favorite[]>([]);
   const navigate = useNavigate();
   let authorizationHeader = localStorage.getItem("authorizationHeader");
 
@@ -50,6 +52,7 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
     navigate("/");
     return <></>;
   }
+
   const filterPokemon = (query: string): Pokemon[] => {
     return allPokemonData.filter((pokemon) => {
       return (
@@ -90,29 +93,9 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
     }
   };
 
-  const displayResults = (pokemonList: Pokemon[]) => {
-    return pokemonList.map((pokemon) => {
-      const pokemonId = pokemon.url.split("/").slice(-2, -1)[0];
-      return (
-        <div
-          key={pokemonId}
-          className="card"
-          onClick={() => handlePokemonClick(pokemon.url)}
-        >
-          <div className="pokeball-icon"></div>
-          <h2>{capitalizeFirstLetter(pokemon.name)}</h2>
-          <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`}
-            alt={pokemon.name}
-          />
-        </div>
-      );
-    });
-  };
-
-  const clearFavorites = (): void => {
-    setFavorites([]);
-  };
+  // const clearFavorites = (): void => {
+  //   setFavorites([]);
+  // };
 
   return (
     <div>
@@ -144,9 +127,20 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
           onChange={handleSearch}
         />
       </div>
-      <div id="resultsContainer" className="results-container">
-        {displayResults(filterPokemon(searchQuery))}
-      </div>
+
+      <PokemonList
+        pokemonList={filterPokemon(searchQuery)}
+        onClickCard={handlePokemonClick}
+      />
+
+      <Modal
+        open={!!pokemonData}
+        footer={null}
+        onCancel={() => setPokemonData(null)}
+        onClose={() => setPokemonData(null)}
+      >
+        {pokemonData && <Render pokemonData={pokemonData} />}
+      </Modal>
     </div>
   );
 };
