@@ -49,17 +49,16 @@
 body {
   background-color: #e44444;
   color: #fff;
-}
-body {
-  background-color: #e44444;
-  color: #fff;
+  overflow-y: hidden;
 }
 
 .search-container {
   display: flex;
+  position: fixed;
+  top: -2%;
   justify-content: left;
   margin-left: 2.4%;
-  min-width: 71%;
+  width: 71%;
   margin-right: 8%;
 }
 
@@ -146,6 +145,7 @@ body {
 #renderDiv {
   width: 30%;
   text-align: center;
+  background-color: #e44444;
   color: #ffffff;
   justify-content: center;
   position: fixed;
@@ -156,10 +156,12 @@ body {
   display: flex;
   flex-wrap: wrap;
   width: 70%;
-  padding: 1.6%;
+  padding: 1.7%;
+  margin-top: 6%;
+  overflow-y: scroll;
+  height: 1.89%;
 }
 .pokeball-icon {
-  position: absolute;
   width: 20px;
   height: 20px;
   background-image: url("./Pokeball.png");
@@ -212,8 +214,8 @@ body {
 }
 
 .card {
-  width: 14%;
-  height: 10%;
+  width: 150px;
+  height: 150px;
   margin: 10px;
   padding: 10px;
   border: 1px solid #444;
