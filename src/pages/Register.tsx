@@ -27,9 +27,32 @@ const Register = () => {
   };
 
   const handleRegister = async () => {
-    var output = await register(formData);
-    if (output) {
-      navigate("/");
+    const { email, nome, telefone, cep, rua, numero, complemento, password } =
+      formData;
+    let missingFields: string[] = [];
+
+    if (!email) missingFields.push("Email");
+    if (!nome) missingFields.push("Name");
+    if (!telefone) missingFields.push("Phone");
+    if (!cep) missingFields.push("Postal Code");
+    if (!rua) missingFields.push("Street");
+    if (!numero) missingFields.push("Number");
+    if (!complemento) missingFields.push("Complement");
+    if (!password) missingFields.push("Password");
+
+    if (missingFields.length > 0) {
+      alert(`Please fill in the following fields: ${missingFields.join(", ")}`);
+      return;
+    }
+
+    try {
+      const output = await register(formData);
+      if (output) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+      alert("Registration failed, please try again.");
     }
   };
 

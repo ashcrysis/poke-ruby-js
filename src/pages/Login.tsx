@@ -27,9 +27,13 @@ const Login = () => {
 
   const handleLogin = async () => {
     const { email, password } = formData;
-    var output = await login(email, password);
-    if (output) {
-      navigate("/search");
+    if (formData.email != "" && formData.password != "") {
+      var output = await login(email, password);
+      if (output) {
+        navigate("/search");
+      }
+    } else {
+      alert("You must fill all fields before logging in!");
     }
   };
 
