@@ -27,8 +27,10 @@ const Login = () => {
 
   const handleLogin = async () => {
     const { email, password } = formData;
-    await login(email, password);
-    navigate("/search");
+    var output = await login(email, password);
+    if (output) {
+      navigate("/search");
+    }
   };
 
   return (

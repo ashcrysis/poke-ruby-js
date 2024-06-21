@@ -23,9 +23,11 @@ export async function login(email: string, password: string) {
         );
 
         alert("Login successful!");
+        return true;
       }
     } else {
       alert("Login failed! Please check your credentials and try again.");
+      return false;
     }
   } catch (error) {
     console.error("Error:", error);
