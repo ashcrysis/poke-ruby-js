@@ -1,7 +1,7 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
-
+import { fetchAllPokemons } from "../services/search.ts";
 interface Pokemon {
   name: string;
   url: string;
@@ -30,39 +30,26 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
   const [allPokemonData, setAllPokemonData] = useState<Pokemon[]>([]);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const navigate = useNavigate();
-  const authorizationHeader = localStorage.getItem("authorizationHeader");
+  let authorizationHeader = localStorage.getItem("authorizationHeader");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!authorizationHeader) {
+        authorizationHeader = "";
+      }
+
+      const pokeData = await fetchAllPokemons(authorizationHeader);
+      setAllPokemonData(pokeData);
+    };
+
+    fetchData();
+  }, []);
+
   if (authorizationHeader == null || authorizationHeader === "") {
     alert("You are not allowed to access this page before logging in.");
     navigate("/");
+    return <></>;
   }
-  useEffect(() => {
-    const fetchAllPokemon = async () => {
-      if (authorizationHeader == null || authorizationHeader === "") {
-        alert("You are not allowed to access this page before logging in.");
-        navigate("/");
-      }
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v2/pokemons/fetch_all`,
-          {
-            headers: {
-              Authorization: `Bearer ${authorizationHeader}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch Pokémon data");
-        }
-        const data = await response.json();
-        setAllPokemonData(data.results);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchAllPokemon();
-  }, [authorizationHeader]);
-
   const filterPokemon = (query: string): Pokemon[] => {
     return allPokemonData.filter((pokemon) => {
       return (
@@ -129,6 +116,25 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
 
   return (
     <div>
+      {/* <div className="favorites-container">
+        <h2>Favorites List</h2>
+        {favorites.map((favorite) => (
+          <a
+            key={favorite.name}
+            href={`/v1/pokemon?pokemon_name=${favorite.name}&commit=Search`}
+            className="favorite-link"
+          >
+            <div className="card">
+              <h2>{capitalizeFirstLetter(favorite.name)}</h2>
+              <img src={favorite.image_url} alt={favorite.name} />
+            </div>
+          </a>
+        ))}
+        <button onClick={clearFavorites} className="clear-favorites-button"> 
+      
+        Clear All Favorites
+      </button>
+      */}
       <div className="search-container">
         <input
           type="text"
