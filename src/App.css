@@ -117,16 +117,19 @@ body {
 #pokediv {
   width: 70%;
 }
-
+#ModalStyle {
+  background-color: #e44444;
+}
 #pokeDataHolder {
-  margin-top: 14%;
-  margin-right: 20%;
 }
 #pokebg {
   width: 90%;
   border: 5px;
   image-rendering: pixelated;
   margin-bottom: -20%;
+  margin-left: 4%;
+  display: flex;
+  justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 #typepoke {
@@ -136,11 +139,11 @@ body {
   width: 50%;
   image-rendering: pixelated;
   margin-bottom: -5%;
+  margin-left: 24%;
   margin-top: -60%;
 }
 #pokeHW {
   display: flex;
-  justify-content: center;
 }
 #renderDiv {
   width: 30%;

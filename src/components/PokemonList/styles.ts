@@ -7,5 +7,6 @@ export const Container = styled.div`
   /* padding: 1.7%; */
   /* margin-top: 6%; */
   overflow-y: scroll;
-  /* height: 1.89%; */
+  height: 8%;
+  margin-top: 140px;
 `;

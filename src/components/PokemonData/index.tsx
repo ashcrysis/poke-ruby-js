@@ -53,8 +53,6 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
     <div id="PokemonDataDiv" role="region" aria-labelledby="pokemon-name">
       <div id="pokeDataHolder">
         <div>
-          <h1 id="pokemon-name">{capitalizeFirstLetter(name)}</h1>
-
           <img id="pokebg" src={bgImage} alt="" />
 
           <img id="pokeImage" src={image} alt={name} />
