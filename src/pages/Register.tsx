@@ -2,20 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import { register } from "../services/register.ts";
-
-interface IFormData {
-  email: string;
-  nome: string;
-  telefone: string;
-  cep: string;
-  rua: string;
-  numero: string;
-  complemento: string;
-  password: string;
-}
+import { IRegisterPostParams } from "../types/register.ts";
 
 const Register = () => {
-  const [formData, setFormData] = useState<IFormData>({
+  const [formData, setFormData] = useState<IRegisterPostParams>({
     email: "",
     nome: "",
     telefone: "",
@@ -37,16 +27,7 @@ const Register = () => {
   };
 
   const handleRegister = async () => {
-    var output = await register(
-      formData.email,
-      formData.nome,
-      formData.telefone,
-      formData.cep,
-      formData.rua,
-      formData.numero,
-      formData.complemento,
-      formData.password
-    );
+    var output = await register(formData);
     if (output) {
       navigate("/");
     }
