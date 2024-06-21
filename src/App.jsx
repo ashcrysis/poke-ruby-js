@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import "./App.css";
-import Login from "./components/Login.tsx";
-import Register from "./components/Register.tsx";
-import Search from "./components/Search/Search.tsx";
-import Render from "./components/Render.tsx";
-import User from "./components/User.tsx";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-function App() {
-  const [pokemonData, setPokemonData] = useState(null);
 
-  const handlePokemonData = (data) => {
-    setPokemonData(data);
-  };
+import Login from "./pages/Login.tsx";
+import Register from "./pages/Register.tsx";
+import Search from "./pages/Search.tsx";
+import User from "./pages/User.tsx";
+
+import "./App.css";
+
+function App() {
   return (
     <div className="App">
       <Router>
@@ -22,9 +19,8 @@ function App() {
             path="/search"
             element={
               <div className="App">
-                <Search setPokemonData={handlePokemonData} />
+                <Search />
                 <User />
-                {pokemonData && <Render {...pokemonData} />}
               </div>
             }
           />

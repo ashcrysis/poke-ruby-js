@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from "react";
-import "../App.css";
-// @ts-ignore
-//import defaultBg from "../poke-bgs/normal.png";
-interface RenderProps {
-  name: string;
-  types: string[];
-  image: string;
-  height: number;
-  weight: number;
-  moves: string[];
+import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter.ts";
+import { IPokemonData } from "../../pages/Search.tsx";
+
+import "../../App.css";
+
+interface PokemonDataProps {
+  pokemonData: IPokemonData;
 }
-const Render: React.FC<RenderProps> = ({
-  name,
-  types,
-  image,
-  height,
-  weight,
-  moves,
-}) => {
+const PokemonData: React.FC<PokemonDataProps> = (props) => {
+  const { name, types, image, height, weight, moves } = props.pokemonData;
+
   const [description, setDescription] = useState("Loading...");
   const [bgImage, setBgImage] = useState("");
+
   const loadBgImg = async (type?: string) => {
-    const logo = await import(`../poke-bgs/${type || "normal"}.png`);
+    const logo = await import(`../../poke-bgs/${type || "normal"}.png`);
     setBgImage(logo.default);
   };
+
   useEffect(() => {
     const fetchPokemonSpeciesData = async (pokemonName: string) => {
       const authorizationHeader = localStorage.getItem("authorizationHeader");
@@ -56,26 +50,36 @@ const Render: React.FC<RenderProps> = ({
   }, [name, types]);
   const displayTypes = types.slice(0, 2);
   return (
-    <div id="renderDiv" role="region" aria-labelledby="pokemon-name">
+    <div id="PokemonDataDiv" role="region" aria-labelledby="pokemon-name">
       <div id="pokeDataHolder">
         <div>
           <h1 id="pokemon-name">{capitalizeFirstLetter(name)}</h1>
+
           <img id="pokebg" src={bgImage} alt="" />
+
           <img id="pokeImage" src={image} alt={name} />
+
           <p id="typepoke">
             Types: {capitalizeFirstLetter(displayTypes.join(", "))}
           </p>
+
           <div id="pokeHW">
             <p>Height: {height} m</p>
+
             <p>|</p>
+
             <p>Weight: {weight} kg</p>
           </div>
+
           <div id="pokeDescription">
             <h3>Description:</h3>
+
             <p>{description}</p>
           </div>
+
           <div id="pokeMoves">
             <h3>Moves:</h3>
+
             <p>{moves}</p>
           </div>
         </div>
@@ -93,9 +97,7 @@ interface FlavorTextEntry {
 interface SpeciesData {
   flavor_text_entries: FlavorTextEntry[];
 }
-export const capitalizeFirstLetter = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
+
 const findEnglishDescription = (speciesData: SpeciesData) => {
   if (
     speciesData &&
@@ -113,4 +115,4 @@ const findEnglishDescription = (speciesData: SpeciesData) => {
   }
 };
 
-export default Render;
+export default PokemonData;

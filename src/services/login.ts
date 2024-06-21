@@ -21,8 +21,8 @@ export async function login(email: string, password: string) {
           "authorizationHeader",
           authorizationHeader.split(" ")[1]
         );
+
         alert("Login successful!");
-        const data = response.data;
       }
     } else {
       alert("Login failed! Please check your credentials and try again.");

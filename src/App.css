@@ -197,37 +197,3 @@ body {
   background-size: cover;
   opacity: 0.5;
 }
-.card:hover > .pokeball-icon {
-  animation: spin 1s infinite linear;
-  opacity: 1;
-  width: 25px;
-  height: 25px;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.card {
-  width: 150px;
-  height: 150px;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #444;
-  border-radius: 5px;
-  text-align: center;
-  background-color: #333;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  color: white;
-}
-.card h2 {
-  font-size: 100%;
-}
-.card img {
-  max-width: 100px;
-}
