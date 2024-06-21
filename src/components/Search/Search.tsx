@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
-import axios from "axios";
+import { fetchAllPokemons } from "../services/search.ts";
 interface Pokemon {
   name: string;
   url: string;
@@ -30,38 +30,27 @@ const Search: React.FC<SearchProps> = ({ setPokemonData }) => {
   const [allPokemonData, setAllPokemonData] = useState<Pokemon[]>([]);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
   const navigate = useNavigate();
-  const authorizationHeader = localStorage.getItem("authorizationHeader");
+  let authorizationHeader = localStorage.getItem("authorizationHeader");
 
   if (authorizationHeader == null || authorizationHeader === "") {
     alert("You are not allowed to access this page before logging in.");
     navigate("/");
   }
-
+  if (!authorizationHeader) {
+    authorizationHeader = "";
+  }
   useEffect(() => {
-    const fetchAllPokemon = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/v2/pokemons/fetch_all`,
-          {
-            headers: {
-              Authorization: `Bearer ${authorizationHeader}`,
-            },
-          }
-        );
-
-        if (response.status !== 200) {
-          throw new Error("Failed to fetch Pokémon data");
-        }
-
-        const data = response.data;
-        setAllPokemonData(data.results);
-      } catch (error) {
-        console.error(error);
+    const fetchData = async () => {
+      if (!authorizationHeader) {
+        authorizationHeader = "";
       }
+
+      const pokeData = await fetchAllPokemons(authorizationHeader);
+      setAllPokemonData(pokeData);
     };
 
-    fetchAllPokemon();
-  }, [authorizationHeader]);
+    fetchData();
+  }, []);
 
   const filterPokemon = (query: string): Pokemon[] => {
     return allPokemonData.filter((pokemon) => {
