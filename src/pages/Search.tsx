@@ -5,7 +5,7 @@ import { Modal } from "antd";
 import Render from "../components/PokemonData/index.tsx";
 import PokemonList from "../components/PokemonList/index.tsx";
 import { fetchAllPokemons } from "../services/search.ts";
-
+import User from "./User.tsx";
 import "../App.css";
 export interface Pokemon {
   name: string;
@@ -118,16 +118,18 @@ const Search: React.FC = () => {
         Clear All Favorites
       </button>
       */}
-      <div className="search-container">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Search Pokemon..."
-          value={searchQuery}
-          onChange={handleSearch}
-        />
+      <div className="headerHolder">
+        <div className="search-container">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search Pokemon..."
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+          <User />
+        </div>
       </div>
-
       <PokemonList
         pokemonList={filterPokemon(searchQuery)}
         onClickCard={handlePokemonClick}

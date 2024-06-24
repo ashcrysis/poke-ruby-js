@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import Search from "./pages/Search.tsx";
-import User from "./pages/User.tsx";
 
 import "./App.css";
 
@@ -20,7 +19,6 @@ function App() {
             element={
               <div className="App">
                 <Search />
-                <User />
               </div>
             }
           />

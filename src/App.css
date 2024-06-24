@@ -49,7 +49,6 @@
 body {
   background-color: #e44444;
   color: #fff;
-  overflow-y: hidden;
 }
 
 .search-container {
@@ -60,6 +59,15 @@ body {
   margin-left: 2.4%;
   width: 71%;
   margin-right: 8%;
+
+  z-index: 1000;
+}
+.headerHolder {
+  position: fixed;
+  z-index: 2000;
+  background-color: #e44444;
+  width: 400vh;
+  height: 14vh;
 }
 
 .search-container input {
