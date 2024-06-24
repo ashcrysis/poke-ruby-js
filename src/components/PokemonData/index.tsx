@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter.ts";
 import { IPokemonData } from "../../pages/Search.tsx";
+import { Skeleton } from "antd";
 
 import "../../App.css";
 
 interface PokemonDataProps {
   pokemonData: IPokemonData;
 }
+
 const PokemonData: React.FC<PokemonDataProps> = (props) => {
   const { name, types, image, height, weight, moves } = props.pokemonData;
 
   const [description, setDescription] = useState("Loading...");
   const [bgImage, setBgImage] = useState("");
-
+  const [bgImageLoaded, setBgImageLoaded] = useState(false);
   const loadBgImg = async (type?: string) => {
     const logo = await import(`../../poke-bgs/${type || "normal"}.png`);
     setBgImage(logo.default);
@@ -45,42 +47,51 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
         console.error("Error fetching data:", error);
       }
     };
-    fetchPokemonSpeciesData(name);
-    loadBgImg(types[0]);
+
+    const fetchData = async () => {
+      await loadBgImg(types[0]);
+      await fetchPokemonSpeciesData(name);
+      setBgImageLoaded(true);
+    };
+
+    fetchData();
   }, [name, types]);
+
   const displayTypes = types.slice(0, 2);
+
   return (
     <div id="PokemonDataDiv" role="region" aria-labelledby="pokemon-name">
       <div id="pokeDataHolder">
-        <div>
-          <img id="pokebg" src={bgImage} alt="" />
+        {bgImageLoaded ? (
+          <>
+            <img id="pokebg" src={bgImage} alt="" />
+            <img id="pokeImage" src={image} alt={name} />
 
-          <img id="pokeImage" src={image} alt={name} />
+            <p id="typepoke">
+              Types: {capitalizeFirstLetter(displayTypes.join(", "))}
+            </p>
 
-          <p id="typepoke">
-            Types: {capitalizeFirstLetter(displayTypes.join(", "))}
-          </p>
+            <div id="pokeHW">
+              <p>Height: {height} m</p>
+              <p>|</p>
+              <p>Weight: {weight} kg</p>
+            </div>
 
-          <div id="pokeHW">
-            <p>Height: {height} m</p>
+            <div id="pokeDescription">
+              <h3>Description:</h3>
+              <p>{description}</p>
+            </div>
 
-            <p>|</p>
-
-            <p>Weight: {weight} kg</p>
+            <div id="pokeMoves">
+              <h3>Moves:</h3>
+              <p>{moves}</p>
+            </div>
+          </>
+        ) : (
+          <div className="skeleton-loading">
+            <Skeleton />
           </div>
-
-          <div id="pokeDescription">
-            <h3>Description:</h3>
-
-            <p>{description}</p>
-          </div>
-
-          <div id="pokeMoves">
-            <h3>Moves:</h3>
-
-            <p>{moves}</p>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
