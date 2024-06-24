@@ -58,7 +58,8 @@ body {
   top: -2%;
   justify-content: left;
   margin-left: 10px;
-  width: 97vh;
+  max-width: 95vh;
+  min-width: 55vh;
 }
 
 .search-container input {
