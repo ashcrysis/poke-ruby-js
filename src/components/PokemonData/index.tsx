@@ -63,11 +63,10 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
   return (
     <div id="PokemonDataDiv" role="region" aria-labelledby="pokemon-name">
       <div id="pokeDataHolder">
-        <Skeleton loading={!bgImageLoaded} active className="skeleton-bg" />
         <Skeleton
           loading={!bgImageLoaded}
           active
-          avatar={{ shape: "square", size: 426 }}
+          avatar={{ shape: "square", size: 430 }}
           className="skeleton-bg"
         />
         <Skeleton loading={!bgImageLoaded} active className="skeleton-bg" />

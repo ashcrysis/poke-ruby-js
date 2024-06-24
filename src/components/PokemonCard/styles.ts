@@ -39,4 +39,19 @@ export const Container = styled.div`
       transform: rotate(360deg);
     }
   }
+  @media (max-width: 1440px) {
+    width: calc((100% / 8) - 42px);
+  }
+
+  @media (max-width: 1024px) {
+    width: calc((100% / 6) - 42px);
+  }
+
+  @media (max-width: 768px) {
+    width: calc((100% / 4) - 42px);
+  }
+
+  @media (max-width: 480px) {
+    width: calc((100% / 2) - 42px);
+  }
 `;

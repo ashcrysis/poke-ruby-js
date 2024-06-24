@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Dropdown, Menu } from "antd"; // Importando Dropdown e Menu do Ant Design
 //@ts-ignore
 import userIcon from "../user-icon.png";
 
@@ -42,15 +43,30 @@ const UserComponent = () => {
       });
   };
 
+  const menu = (
+    <Menu>
+      <Menu.Item
+        key="logout"
+        onClick={onLogout}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        Log Off
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className="user-component">
-      <div className="user-info">
-        <img src={userIcon} alt="User Icon" className="user-icon" />
-        <span className="user-email">{userEmail}</span>
-      </div>
-      <button className="logout-button" onClick={onLogout}>
-        Log Off
-      </button>
+      <Dropdown overlay={menu} trigger={["hover"]} placement="bottomCenter">
+        <div className="user-info">
+          <img src={userIcon} alt="User Icon" className="user-icon" />
+          <span className="user-email">{userEmail}</span>
+        </div>
+      </Dropdown>
     </div>
   );
 };
