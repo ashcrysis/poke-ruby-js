@@ -88,8 +88,7 @@ const Register = () => {
           style={{
             width: "100%",
             maxWidth: 400,
-            justifyContent: "center",
-            alignItems: "center",
+            marginLeft: "130px",
           }}
         >
           <Form.Item
@@ -151,7 +150,7 @@ const Register = () => {
             <Input.Password id="password" onChange={handleInputChange} />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", marginLeft: "-50px" }}>
               <Button
                 className="pokedex-button"
                 type="primary"
