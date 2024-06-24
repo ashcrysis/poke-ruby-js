@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Form, Input, Button } from "antd";
 import "../App.css";
 import { login } from "../services/login.ts";
 
@@ -27,8 +28,8 @@ const Login = () => {
 
   const handleLogin = async () => {
     const { email, password } = formData;
-    if (formData.email != "" && formData.password != "") {
-      var output = await login(email, password);
+    if (formData.email !== "" && formData.password !== "") {
+      const output = await login(email, password);
       if (output) {
         navigate("/search");
       }
@@ -37,36 +38,69 @@ const Login = () => {
     }
   };
 
+  const onFinish = (values: IFormData) => {
+    handleLogin();
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <div className="pokedex-container">
       <div className="pokedex-content">
         <h2 className="pokedex-title">Login</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          id="email"
-          onChange={handleInputChange}
-          className="pokedex-input"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          id="password"
-          onChange={handleInputChange}
-          className="pokedex-input"
-        />
-        <button onClick={handleLogin} className="pokedex-button">
-          Login
-        </button>
+        <Form
+          name="login"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input your email!" }]}
+          >
+            <Input
+              id="email"
+              onChange={handleInputChange}
+              style={{
+                width: "24vh",
+              }}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password
+              id="password"
+              onChange={handleInputChange}
+              style={{
+                width: "24vh",
+              }}
+            />
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}></Form.Item>
+        </Form>
         {formData.username && (
           <p className="pokedex-greeting">Hello, {formData.username}</p>
         )}
-        <button
+        <Button type="primary" htmlType="submit" className="pokedex-button">
+          Login
+        </Button>
+        <Button
           onClick={() => navigate("/register")}
           className="pokedex-button"
         >
           Don't have an account? Register
-        </button>
+        </Button>
       </div>
     </div>
   );
