@@ -7,6 +7,7 @@ export const Container = styled.div`
   /* padding: 1.7%; */
   /* margin-top: 6%; */
   overflow-y: scroll;
-  height: 8%;
+  height: 100vh;
+  width: 194vh;
   margin-top: 140px;
 `;
