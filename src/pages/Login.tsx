@@ -88,19 +88,19 @@ const Login = () => {
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}></Form.Item>
+          <Button type="primary" htmlType="submit" className="pokedex-button">
+            Login
+          </Button>
+          <Button
+            onClick={() => navigate("/register")}
+            className="pokedex-button"
+          >
+            Don't have an account? Register
+          </Button>
         </Form>
         {formData.username && (
           <p className="pokedex-greeting">Hello, {formData.username}</p>
         )}
-        <Button type="primary" htmlType="submit" className="pokedex-button">
-          Login
-        </Button>
-        <Button
-          onClick={() => navigate("/register")}
-          className="pokedex-button"
-        >
-          Don't have an account? Register
-        </Button>
       </div>
     </div>
   );
