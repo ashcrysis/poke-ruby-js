@@ -15,6 +15,7 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
   const [description, setDescription] = useState("Loading...");
   const [bgImage, setBgImage] = useState("");
   const [bgImageLoaded, setBgImageLoaded] = useState(false);
+
   const loadBgImg = async (type?: string) => {
     const logo = await import(`../../poke-bgs/${type || "normal"}.png`);
     setBgImage(logo.default);
@@ -62,7 +63,15 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
   return (
     <div id="PokemonDataDiv" role="region" aria-labelledby="pokemon-name">
       <div id="pokeDataHolder">
-        {bgImageLoaded ? (
+        <Skeleton loading={!bgImageLoaded} active className="skeleton-bg" />
+        <Skeleton
+          loading={!bgImageLoaded}
+          active
+          avatar={{ shape: "square", size: 426 }}
+          className="skeleton-bg"
+        />
+        <Skeleton loading={!bgImageLoaded} active className="skeleton-bg" />
+        {bgImageLoaded && (
           <>
             <img id="pokebg" src={bgImage} alt="" />
             <img id="pokeImage" src={image} alt={name} />
@@ -87,15 +96,12 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
               <p>{moves}</p>
             </div>
           </>
-        ) : (
-          <div className="skeleton-loading">
-            <Skeleton />
-          </div>
         )}
       </div>
     </div>
   );
 };
+
 interface FlavorTextEntry {
   flavor_text: string;
   language: {
