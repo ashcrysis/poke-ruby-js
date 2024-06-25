@@ -24,11 +24,7 @@ export async function login(email: string, password: string) {
         return true;
       }
     } else {
-      alert("Login failed! Please check your credentials and try again.");
       return false;
     }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Login failed! Please check your credentials and try again.");
-  }
+  } catch (error) {}
 }

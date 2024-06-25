@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Alert } from "antd";
 import "../App.css";
 import { login } from "../services/login.ts";
 
@@ -11,45 +11,36 @@ interface IFormData {
 }
 
 const Login = () => {
-  const [formData, setFormData] = useState<IFormData>({
-    email: "",
-    password: "",
-    username: "",
-  });
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [id]: value,
-    }));
-  };
-
-  const handleLogin = async () => {
-    const { email, password } = formData;
-    if (formData.email !== "" && formData.password !== "") {
-      const output = await login(email, password);
-      if (output) {
-        navigate("/search");
-      }
+  const handleLogin = async (values: IFormData) => {
+    console.log("Email:", values.email);
+    console.log("Password:", values.password);
+    const output = await login(values.email, values.password);
+    if (output) {
+      navigate("/search");
     } else {
-      alert("You must fill all fields before logging in!");
+      setError("Login failed! Please verify your credentials and try again.");
     }
   };
 
   const onFinish = (values: IFormData) => {
-    handleLogin();
+    handleLogin(values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
+    setError("You must fill all fields before logging in!");
   };
-
+  const handleClose = () => {
+    setError(null);
+  };
   return (
     <div className="pokedex-container">
       <div className="pokedex-content">
         <h2 className="pokedex-title">Login</h2>
+
         <Form
           name="login"
           labelCol={{ span: 8 }}
@@ -66,7 +57,6 @@ const Login = () => {
           >
             <Input
               id="email"
-              onChange={handleInputChange}
               style={{
                 width: "24vh",
               }}
@@ -80,14 +70,20 @@ const Login = () => {
           >
             <Input.Password
               id="password"
-              onChange={handleInputChange}
               style={{
                 width: "24vh",
               }}
             />
           </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}></Form.Item>
+          {error && (
+            <Alert
+              message={error}
+              type="error"
+              showIcon
+              closable
+              onClose={handleClose}
+            />
+          )}
           <Button type="primary" htmlType="submit" className="pokedex-button">
             Login
           </Button>
@@ -97,10 +93,9 @@ const Login = () => {
           >
             Don't have an account? Register
           </Button>
+
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}></Form.Item>
         </Form>
-        {formData.username && (
-          <p className="pokedex-greeting">Hello, {formData.username}</p>
-        )}
       </div>
     </div>
   );

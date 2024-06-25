@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Alert } from "antd";
 import "../App.css";
 import { register } from "../services/register.ts";
 import { IRegisterPostParams } from "../types/register.ts";
 
 const Register = () => {
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<IRegisterPostParams>({
     email: "",
     nome: "",
@@ -27,22 +28,27 @@ const Register = () => {
     }));
   };
 
+  const fieldLabels: Record<string, string> = {
+    email: "Email",
+    nome: "Name",
+    telefone: "Phone",
+    cep: "Postal Code",
+    rua: "Street",
+    numero: "Number",
+    password: "Password",
+  };
+
   const handleRegister = async () => {
-    const { email, nome, telefone, cep, rua, numero, complemento, password } =
-      formData;
     let missingFields: string[] = [];
 
-    if (!email) missingFields.push("Email");
-    if (!nome) missingFields.push("Name");
-    if (!telefone) missingFields.push("Phone");
-    if (!cep) missingFields.push("Postal Code");
-    if (!rua) missingFields.push("Street");
-    if (!numero) missingFields.push("Number");
-    if (!complemento) missingFields.push("Complement");
-    if (!password) missingFields.push("Password");
+    Object.entries(formData).forEach(([key, value]) => {
+      if (!value) {
+        missingFields.push(fieldLabels[key]);
+      }
+    });
 
-    if (missingFields.length > 0) {
-      alert(`Please fill in the following fields: ${missingFields.join(", ")}`);
+    if (missingFields.length === Object.keys(formData).length) {
+      setError("Please fill in all needed fields.");
       return;
     }
 
@@ -52,29 +58,35 @@ const Register = () => {
         navigate("/");
       }
     } catch (error) {
-      console.error("Registration failed:", error);
-      alert("Registration failed, please try again.");
+      setError("Registration failed, please try again.");
     }
   };
 
-  const onFinish = (values: IRegisterPostParams) => {
+  const onFinish = async (values: IRegisterPostParams) => {
     handleRegister();
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    const missingFields = Object.keys(errorInfo.values).filter((field) =>
+      errorInfo.errorFields.some((item) => item.name[0] === field)
+    );
+
+    const missingFieldLabels = missingFields.map((field) => fieldLabels[field]);
+    if (missingFieldLabels.length > 6) {
+      setError(`Please fill in all the necessary fields`);
+    } else {
+      setError(
+        `Please fill in the following fields: ${missingFieldLabels.join(", ")}`
+      );
+    }
+  };
+
+  const handleClose = () => {
+    setError(null);
   };
 
   return (
-    <div
-      className="pokedex-container"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
+    <div className="pokedex-container">
       <div className="pokedex-content">
         <h2 className="pokedex-title">Register</h2>
         <Form
@@ -150,6 +162,15 @@ const Register = () => {
             <Input.Password id="password" onChange={handleInputChange} />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            {error && (
+              <Alert
+                message={error}
+                type="error"
+                showIcon
+                closable
+                onClose={handleClose}
+              />
+            )}
             <div style={{ display: "flex", marginLeft: "-50px" }}>
               <Button
                 className="pokedex-button"
