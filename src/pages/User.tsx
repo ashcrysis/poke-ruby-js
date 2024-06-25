@@ -17,7 +17,7 @@ const UserComponent = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserEmail(data.email);
+        setUserEmail(data.nome);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);

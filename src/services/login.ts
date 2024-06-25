@@ -22,7 +22,6 @@ export async function login(email: string, password: string) {
           authorizationHeader.split(" ")[1]
         );
 
-        alert("Login successful!");
         return true;
       }
     } else {
