@@ -11,16 +11,15 @@ export const Container = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   color: white;
   transform: scale(1);
+  transition: 0.2s;
 
   &:hover > .pokeball-icon {
     opacity: 1;
-    width: 25px;
-    height: 25px;
+    transform: scale(1.1);
   }
 
   &:hover {
     transform: scale(1.1);
-    transition: 0.2s;
   }
 
   & > h2 {
