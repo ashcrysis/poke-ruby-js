@@ -1,5 +1,4 @@
 import axios from "axios";
-
 export async function login(email: string, password: string) {
   try {
     const response = await axios.post(
@@ -30,6 +29,6 @@ export async function login(email: string, password: string) {
     }
   } catch (error) {
     console.error("Error:", error);
-    alert("Login failed! Please try again.");
+    alert("Login failed! Please check your credentials and try again.");
   }
 }
