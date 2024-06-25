@@ -66,7 +66,7 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
         <Skeleton
           loading={!bgImageLoaded}
           active
-          avatar={{ shape: "square", size: 430 }}
+          avatar={{ shape: "square", size: 460 }}
           className="skeleton-bg"
         />
         <Skeleton loading={!bgImageLoaded} active className="skeleton-bg" />
