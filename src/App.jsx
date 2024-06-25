@@ -14,14 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route
-            path="/search"
-            element={
-              <div className="App">
-                <Search />
-              </div>
-            }
-          />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </Router>
     </div>

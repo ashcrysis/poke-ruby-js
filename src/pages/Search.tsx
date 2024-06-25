@@ -7,6 +7,7 @@ import PokemonList from "../components/PokemonList/index.tsx";
 import { fetchAllPokemons } from "../services/search.ts";
 import User from "./User.tsx";
 import "../App.css";
+import * as S from "../styles/search.styles.ts";
 export interface Pokemon {
   name: string;
   url: string;
@@ -98,7 +99,7 @@ const Search: React.FC = () => {
   // };
 
   return (
-    <div>
+    <S.Container>
       {/* <div className="favorites-container">
         <h2>Favorites List</h2>
         {favorites.map((favorite) => (
@@ -144,7 +145,7 @@ const Search: React.FC = () => {
       >
         {pokemonData && <Render pokemonData={pokemonData} />}
       </Modal>
-    </div>
+    </S.Container>
   );
 };
 
