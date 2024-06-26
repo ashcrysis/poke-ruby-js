@@ -8,7 +8,7 @@ interface IHeaderProps {}
 const Header: React.FC<IHeaderProps> = () => {
   return (
     <S.Container>
-      <h1>PokeRubyJS</h1>
+      <div className="logo" />
 
       <UserComponent />
     </S.Container>

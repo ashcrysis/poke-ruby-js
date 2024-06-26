@@ -15,7 +15,12 @@
   text-align: center;
   width: 40%;
 }
-
+.logo {
+  width: 240px;
+  height: 90px;
+  background-image: url("./assets/logo.png");
+  background-size: cover;
+}
 .pokedex-input {
   width: calc(100% - 20px);
   padding: 10px;
