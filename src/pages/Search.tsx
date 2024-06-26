@@ -95,10 +95,6 @@ const Search: React.FC = () => {
     }
   };
 
-  // const clearFavorites = (): void => {
-  //   setFavorites([]);
-  // };
-
   return (
     <S.Container>
       <Header />
