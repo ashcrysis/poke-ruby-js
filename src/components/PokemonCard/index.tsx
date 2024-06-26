@@ -45,7 +45,6 @@ const PokemonCard: React.FC<IPokemonCardProps> = (props) => {
         alt={pokemon.name}
         onLoad={handleImageLoad}
         onError={handleImageError}
-        style={{ display: loading ? "none" : "block" }}
       />
     </S.Container>
   );
