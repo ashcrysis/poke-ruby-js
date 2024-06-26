@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: calc((100% / 12) - 42px);
+  cursor: pointer;
+  width: calc((100% / 8) - 42px);
   margin: 10px;
   padding: 10px;
   border: 1px solid #444;

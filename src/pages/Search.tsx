@@ -2,12 +2,13 @@ import React, { useState, useEffect, ChangeEvent, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
 
+import Header from "../components/Header/index.tsx";
 import Render from "../components/PokemonData/index.tsx";
 import PokemonList from "../components/PokemonList/index.tsx";
 import { fetchAllPokemons } from "../services/search.ts";
-import User from "./User.tsx";
 import "../App.css";
 import * as S from "../styles/search.styles.ts";
+import SearchBar from "../components/SearchBar/index.tsx";
 export interface Pokemon {
   name: string;
   url: string;
@@ -63,8 +64,8 @@ const Search: React.FC = () => {
     });
   };
 
-  const handleSearch = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSearchQuery(event.target.value);
+  const handleSearch = (value: string): void => {
+    setSearchQuery(value);
   };
 
   const capitalizeFirstLetter = (string: string): string => {
@@ -100,39 +101,12 @@ const Search: React.FC = () => {
 
   return (
     <S.Container>
-      {/* <div className="favorites-container">
-        <h2>Favorites List</h2>
-        {favorites.map((favorite) => (
-          <a
-            key={favorite.name}
-            href={`/v1/pokemon?pokemon_name=${favorite.name}&commit=Search`}
-            className="favorite-link"
-          >
-            <div className="card">
-              <h2>{capitalizeFirstLetter(favorite.name)}</h2>
-              <img src={favorite.image_url} alt={favorite.name} />
-            </div>
-          </a>
-        ))}
-        <button onClick={clearFavorites} className="clear-favorites-button"> 
-      
-        Clear All Favorites
-      </button>
-      */}
-      <div className="headerHolder">
-        <div className="search-container">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search Pokemon..."
-            value={searchQuery}
-            onChange={handleSearch}
-          />
-          <User />
-        </div>
-      </div>
+      <Header />
+
+      <SearchBar onFilter={handleSearch} />
+
       <PokemonList
-        pokemonList={filterPokemon(searchQuery)}
+        pokemonList={[...filterPokemon(searchQuery)].slice(0, 32)}
         onClickCard={handlePokemonClick}
       />
 

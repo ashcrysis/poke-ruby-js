@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown, Menu } from "antd"; // Importando Dropdown e Menu do Ant Design
-//@ts-ignore
-import userIcon from "../user-icon.png";
+import { Dropdown, Menu, Tooltip } from "antd";
+import * as S from "../styles.ts";
+// @ts-ignore
+import userIcon from "../../../assets/user-icon.png";
+
+interface IUserData {
+  email: string;
+  nome: string;
+}
 
 const UserComponent = () => {
-  const [userEmail, setUserEmail] = useState("");
+  const [userData, setUserData] = useState<IUserData>();
 
   useEffect(() => {
     const token = localStorage.getItem("authorizationHeader");
@@ -17,7 +23,7 @@ const UserComponent = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserEmail(data.nome);
+        setUserData(data);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
@@ -44,14 +50,21 @@ const UserComponent = () => {
   };
 
   const menu = (
-    <Menu
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginRight: "94px",
-      }}
-    >
+    <Menu>
+      <Menu.Item key="meus-dados" disabled>
+        <Tooltip title="Em breve!" placement="left">
+          Meus dados
+        </Tooltip>
+      </Menu.Item>
+
+      <Menu.Item key="favoritos" disabled>
+        <Tooltip title="Em breve!" placement="left">
+          Favoritos
+        </Tooltip>
+      </Menu.Item>
+
+      <Menu.Divider />
+
       <Menu.Item key="logout" onClick={onLogout}>
         Log Off
       </Menu.Item>
@@ -59,14 +72,15 @@ const UserComponent = () => {
   );
 
   return (
-    <div className="user-component">
+    <S.UserContainer>
       <Dropdown overlay={menu} trigger={["hover"]} placement="bottom">
-        <div className="user-info">
-          <img src={userIcon} alt="User Icon" className="user-icon" />
-          <span className="user-email">{userEmail}</span>
-        </div>
+        <S.UserContent>
+          <img src={userIcon} alt="User Icon" />
+
+          <span>Olá, {userData?.nome.split(" ")[0]}!</span>
+        </S.UserContent>
       </Dropdown>
-    </div>
+    </S.UserContainer>
   );
 };
 

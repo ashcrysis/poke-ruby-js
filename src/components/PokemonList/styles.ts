@@ -3,8 +3,5 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  /* padding: 1.7%; */
-  /* margin-top: 6%; */
-  margin-top: 140px;
-  padding: 48px;
+  padding: 0 calc(64px - 8px); // Menos o gap do content para ignorar os espacos externos ao "grid"
 `;

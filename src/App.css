@@ -94,11 +94,6 @@ body {
   color: #888;
 }
 
-.user-component {
-  position: fixed;
-  top: -2%;
-  left: 77%;
-}
 .clear-favorites-button {
   margin-left: 2.4%;
 }
