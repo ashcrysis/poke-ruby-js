@@ -44,16 +44,15 @@ const UserComponent = () => {
   };
 
   const menu = (
-    <Menu>
-      <Menu.Item
-        key="logout"
-        onClick={onLogout}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+    <Menu
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: "94px",
+      }}
+    >
+      <Menu.Item key="logout" onClick={onLogout}>
         Log Off
       </Menu.Item>
     </Menu>
@@ -61,7 +60,7 @@ const UserComponent = () => {
 
   return (
     <div className="user-component">
-      <Dropdown overlay={menu} trigger={["hover"]} placement="bottomCenter">
+      <Dropdown overlay={menu} trigger={["hover"]} placement="bottom">
         <div className="user-info">
           <img src={userIcon} alt="User Icon" className="user-icon" />
           <span className="user-email">{userEmail}</span>
