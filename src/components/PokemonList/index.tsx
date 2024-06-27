@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Pokemon } from "../../pages/Search.tsx";
 import PokemonCard from "../PokemonCard/index.tsx";
-import { Skeleton } from "antd";
+import { Skeleton, Empty } from "antd";
 import * as S from "./styles.ts";
-
+import "../../App.css";
 interface IPokemonListProps {
   pokemonList: Pokemon[];
   onClickCard: (url: string) => void;
@@ -12,6 +12,7 @@ interface IPokemonListProps {
 const PokemonList: React.FC<IPokemonListProps> = (props) => {
   const { pokemonList, onClickCard } = props;
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -26,6 +27,10 @@ const PokemonList: React.FC<IPokemonListProps> = (props) => {
             <Skeleton key={index} active />
           ))}
         </>
+      ) : pokemonList.length === 0 ? (
+        <S.noDataContainer>
+          <Empty description="No Pokémon found" className="noData" />
+        </S.noDataContainer>
       ) : (
         pokemonList.map((pokemon, index) => (
           <PokemonCard

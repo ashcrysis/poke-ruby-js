@@ -56,6 +56,10 @@ const Search: React.FC = () => {
   }
 
   const filterPokemon = (query: string): Pokemon[] => {
+    if (!allPokemonData || allPokemonData.length === 0) {
+      return [];
+    }
+
     return allPokemonData.filter((pokemon) => {
       return (
         pokemon.name.startsWith(query.toLowerCase().trim()) ||

@@ -28,7 +28,9 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
         console.error("Authorization token not found");
         return;
       }
-      const apiUrl = `${process.env.REACT_APP_API_URL}/v2/pokemons/species?name=${pokemonName}`;
+      const apiUrl = `${
+        process.env.REACT_APP_API_URL
+      }/v2/pokemons/species?name=${pokemonName.split("-")[0]}`;
 
       try {
         const response = await fetch(apiUrl, {
