@@ -13,7 +13,7 @@ const SearchBar: React.FC<ISearchBarProps> = (props) => {
     <S.Container>
       <Input
         type="text"
-        placeholder="Pesquisar..."
+        placeholder="Search..."
         onChange={(event) => onFilter(event.target.value)}
       />
     </S.Container>

@@ -52,14 +52,14 @@ const UserComponent = () => {
   const menu = (
     <Menu>
       <Menu.Item key="meus-dados" disabled>
-        <Tooltip title="Em breve!" placement="left">
-          Meus dados
+        <Tooltip title="Soon!" placement="left">
+          My data
         </Tooltip>
       </Menu.Item>
 
       <Menu.Item key="favoritos" disabled>
-        <Tooltip title="Em breve!" placement="left">
-          Favoritos
+        <Tooltip title="Soon!" placement="left">
+          Favorites
         </Tooltip>
       </Menu.Item>
 
@@ -77,7 +77,7 @@ const UserComponent = () => {
         <S.UserContent>
           <img src={userIcon} alt="User Icon" />
 
-          <span>Olá, {userData?.nome.split(" ")[0]}!</span>
+          <span>Hello, {userData?.nome.split(" ")[0]}!</span>
         </S.UserContent>
       </Dropdown>
     </S.UserContainer>
