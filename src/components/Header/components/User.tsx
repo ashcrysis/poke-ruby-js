@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-//@ts-ignore
-import userIcon from "../user-icon.png";
+import { Dropdown, Menu, Tooltip } from "antd";
+import * as S from "../styles.ts";
+// @ts-ignore
+import userIcon from "../../../assets/user-icon.png";
+
+interface IUserData {
+  email: string;
+  nome: string;
+}
 
 const UserComponent = () => {
-  const [userEmail, setUserEmail] = useState("");
+  const [userData, setUserData] = useState<IUserData>();
 
   useEffect(() => {
     const token = localStorage.getItem("authorizationHeader");
@@ -16,7 +23,7 @@ const UserComponent = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserEmail(data.email);
+        setUserData(data);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
@@ -42,16 +49,38 @@ const UserComponent = () => {
       });
   };
 
-  return (
-    <div className="user-component">
-      <div className="user-info">
-        <img src={userIcon} alt="User Icon" className="user-icon" />
-        <span className="user-email">{userEmail}</span>
-      </div>
-      <button className="logout-button" onClick={onLogout}>
+  const menu = (
+    <Menu>
+      <Menu.Item key="meus-dados" disabled>
+        <Tooltip title="Soon!" placement="left">
+          My data
+        </Tooltip>
+      </Menu.Item>
+
+      <Menu.Item key="favoritos" disabled>
+        <Tooltip title="Soon!" placement="left">
+          Favorites
+        </Tooltip>
+      </Menu.Item>
+
+      <Menu.Divider />
+
+      <Menu.Item key="logout" onClick={onLogout}>
         Log Off
-      </button>
-    </div>
+      </Menu.Item>
+    </Menu>
+  );
+
+  return (
+    <S.UserContainer>
+      <Dropdown overlay={menu} trigger={["hover"]} placement="bottom">
+        <S.UserContent>
+          <img src={userIcon} alt="User Icon" />
+
+          <span>Hello, {userData?.nome.split(" ")[0]}!</span>
+        </S.UserContent>
+      </Dropdown>
+    </S.UserContainer>
   );
 };
 

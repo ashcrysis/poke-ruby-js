@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 150px;
-  height: 150px;
+  cursor: pointer;
+  width: calc((100% / 8) - 42px);
   margin: 10px;
   padding: 10px;
   border: 1px solid #444;
@@ -12,16 +12,15 @@ export const Container = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   color: white;
   transform: scale(1);
+  transition: 0.2s;
 
   &:hover > .pokeball-icon {
     opacity: 1;
-    width: 25px;
-    height: 25px;
+    transform: scale(1.1);
   }
 
   &:hover {
     transform: scale(1.1);
-    transition: 0.2s;
   }
 
   & > h2 {
@@ -39,5 +38,20 @@ export const Container = styled.div`
     to {
       transform: rotate(360deg);
     }
+  }
+  @media (max-width: 1440px) {
+    width: calc((100% / 8) - 42px);
+  }
+
+  @media (max-width: 1024px) {
+    width: calc((100% / 6) - 42px);
+  }
+
+  @media (max-width: 768px) {
+    width: calc((100% / 3) - 42px);
+  }
+
+  @media (max-width: 480px) {
+    width: calc((100% / 2) - 42px);
   }
 `;
