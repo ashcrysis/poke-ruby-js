@@ -62,7 +62,7 @@ const PokemonList: React.FC<IPokemonListProps> = (props) => {
             onChange={handlePageChange}
             style={{
               textAlign: "left",
-              marginTop: "20px",
+              marginTop: "-15px",
               marginRight: "70vw",
               width: "100vw",
             }}
