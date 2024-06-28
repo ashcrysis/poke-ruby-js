@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import { Modal } from "antd";
 
 import Header from "../components/Header/index.tsx";
@@ -23,18 +24,29 @@ export interface IPokemonData {
   moves: string;
 }
 
-// interface Favorite {
-//   name: string;
-//   image_url: string;
-// }
-
 const Search: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [allPokemonData, setAllPokemonData] = useState<Pokemon[]>([]);
   const [pokemonData, setPokemonData] = useState<IPokemonData | null>(null);
-  // const [favorites, setFavorites] = useState<Favorite[]>([]);
   const navigate = useNavigate();
   let authorizationHeader = localStorage.getItem("authorizationHeader");
+
+  const checkTokenExpiry = () => {
+    if (!authorizationHeader) return;
+
+    try {
+      const decodedToken: any = jwtDecode(authorizationHeader);
+      const currentTime = Date.now() / 1000;
+      console.log(decodedToken.exp);
+      if (decodedToken.exp < currentTime) {
+        localStorage.removeItem("authorizationHeader");
+        alert("Your session has expired. Please log in again.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,9 +59,12 @@ const Search: React.FC = () => {
     };
 
     fetchData();
-  }, []);
 
-  if (authorizationHeader == null || authorizationHeader === "") {
+    const interval = setInterval(checkTokenExpiry, 60000);
+    return () => clearInterval(interval);
+  }, [authorizationHeader]);
+
+  if (!authorizationHeader) {
     alert("You are not allowed to access this page before logging in.");
     navigate("/");
     return <></>;
@@ -106,10 +121,9 @@ const Search: React.FC = () => {
       <SearchBar onFilter={handleSearch} />
 
       <PokemonList
-        pokemonList={[...filterPokemon(searchQuery)].slice(0, 32)}
+        pokemonList={[...filterPokemon(searchQuery)]}
         onClickCard={handlePokemonClick}
       />
-
       <Modal
         title={pokemonData ? capitalizeFirstLetter(pokemonData.name) : ""}
         open={!!pokemonData}
