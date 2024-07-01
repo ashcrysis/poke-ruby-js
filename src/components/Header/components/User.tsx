@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown, Menu, Tooltip } from "antd";
+import { Dropdown, Menu, Tooltip, Button } from "antd";
 import * as S from "../styles.ts";
 // @ts-ignore
 import userIcon from "../../../assets/user-icon.png";
 import axios from "axios";
+import EditUserModal from "./EditUserModal.tsx";
+
 interface IUserData {
   email: string;
   name: string;
+  phone?: string;
+  postal_code?: string;
+  street?: string;
+  number?: string;
+  complement?: string;
+  password?: string;
 }
 
 const UserComponent = () => {
   let authorizationHeader = localStorage.getItem("authorizationHeader");
   const [userData, setUserData] = useState<IUserData>();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [userId, setUserId] = useState<string>();
 
   useEffect(() => {
     const token = localStorage.getItem("authorizationHeader");
@@ -24,13 +34,13 @@ const UserComponent = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserData(data);
+        setUserData(data.user);
+        setUserId(data.user.id);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
   }, []);
-
   const onLogout = () => {
     const token = localStorage.getItem("authorizationHeader");
     localStorage.setItem("authorizationHeader", "");
@@ -49,6 +59,7 @@ const UserComponent = () => {
         console.error("Error logging out:", error);
       });
   };
+
   const handleToggleApi = async () => {
     try {
       const response = await axios.get(
@@ -67,12 +78,11 @@ const UserComponent = () => {
 
   const menu = (
     <Menu>
-      <Menu.Item key="meus-dados" disabled>
-        <Tooltip title="Soon!" placement="left">
+      <Menu.Item key="meus-dados" onClick={() => setIsModalVisible(true)}>
+        <Tooltip title="Edit your data" placement="left">
           My data
         </Tooltip>
       </Menu.Item>
-
       <Menu.Item key="favoritos" disabled>
         <Tooltip title="Soon!" placement="left">
           Favorites
@@ -87,7 +97,6 @@ const UserComponent = () => {
         </Tooltip>
       </Menu.Item>
       <Menu.Divider />
-
       <Menu.Item key="logout" onClick={onLogout}>
         Log Off
       </Menu.Item>
@@ -99,10 +108,16 @@ const UserComponent = () => {
       <Dropdown overlay={menu} trigger={["hover"]} placement="bottom">
         <S.UserContent>
           <img src={userIcon} alt="User Icon" />
-
           <span>Hello, {userData?.name.split(" ")[0]}!</span>
         </S.UserContent>
       </Dropdown>
+      <EditUserModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        userData={userData}
+        userId={userId}
+        setUserData={setUserData}
+      />
     </S.UserContainer>
   );
 };
