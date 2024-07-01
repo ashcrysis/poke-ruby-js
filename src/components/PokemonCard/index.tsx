@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "antd";
+import axios from "axios";
 
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter.ts";
 import { Pokemon } from "../../pages/Search";
@@ -14,8 +15,26 @@ interface IPokemonCardProps {
 const PokemonCard: React.FC<IPokemonCardProps> = (props) => {
   const { pokemon, handleClick } = props;
   const [loading, setLoading] = useState(true);
+  const [sprite, setSprite] = useState("");
 
-  const pokemonId = pokemon.url.split("/").slice(-2, -1)[0];
+  useEffect(() => {
+    const fetchPokemonData = async () => {
+      try {
+        const response = await axios.get(
+          `${
+            process.env.REACT_APP_POKEAPI_API_URL
+          }/pokemon/${pokemon.name.toLowerCase()}`
+        );
+        setSprite(response.data.sprites.front_default);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching the Pokémon data", error);
+        setLoading(false);
+      }
+    };
+
+    fetchPokemonData();
+  }, [pokemon.name]);
 
   const handleImageLoad = () => {
     setLoading(false);
@@ -24,15 +43,17 @@ const PokemonCard: React.FC<IPokemonCardProps> = (props) => {
   const handleImageError = () => {
     setLoading(false);
   };
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
 
-    return () => clearTimeout(timer);
-  }, [pokemon.url]);
   return (
-    <S.Container onClick={() => handleClick(pokemon.url)}>
+    <S.Container
+      onClick={() =>
+        handleClick(
+          `${
+            process.env.REACT_APP_POKEAPI_API_URL
+          }/pokemon/${pokemon.name.toLowerCase()}`
+        )
+      }
+    >
       <div className="pokeball-icon"></div>
       {loading ? (
         <Skeleton active title paragraph={{ rows: 0 }} />
@@ -40,12 +61,14 @@ const PokemonCard: React.FC<IPokemonCardProps> = (props) => {
         <h2>{capitalizeFirstLetter(pokemon.name)}</h2>
       )}
       {loading && <Skeleton.Image />}
-      <img
-        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`}
-        alt={pokemon.name}
-        onLoad={handleImageLoad}
-        onError={handleImageError}
-      />
+      {sprite && (
+        <img
+          src={sprite}
+          alt={pokemon.name}
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+        />
+      )}
     </S.Container>
   );
 };

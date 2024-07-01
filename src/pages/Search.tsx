@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, Fragment } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { Modal } from "antd";
@@ -10,6 +10,7 @@ import { fetchAllPokemons } from "../services/search.ts";
 import "../App.css";
 import * as S from "../styles/search.styles.ts";
 import SearchBar from "../components/SearchBar/index.tsx";
+
 export interface Pokemon {
   name: string;
   url: string;
@@ -113,7 +114,6 @@ const Search: React.FC = () => {
       console.error("Error fetching Pokémon data:", error);
     }
   };
-
   return (
     <S.Container>
       <Header />
