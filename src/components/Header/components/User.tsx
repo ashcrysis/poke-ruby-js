@@ -79,7 +79,10 @@ const UserComponent = () => {
         </Tooltip>
       </Menu.Item>
       <Menu.Item key="toggle_api" onClick={handleToggleApi}>
-        <Tooltip title="Toggle api" placement="left">
+        <Tooltip
+          title="Hot swap between local Pokemon repository and Pokeapi data"
+          placement="left"
+        >
           Toggle api
         </Tooltip>
       </Menu.Item>
