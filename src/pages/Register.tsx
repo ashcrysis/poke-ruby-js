@@ -3,21 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Alert } from "antd";
 import "../App.css";
 import { register } from "../services/register.ts";
-import { IRegisterPostParams } from "../types/register.ts";
+import { IRegisterPostParams } from "../types/register";
 
 const Register = () => {
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<IRegisterPostParams>({
     email: "",
-    nome: "",
-    telefone: "",
-    cep: "",
-    rua: "",
-    numero: "",
-    complemento: "",
+    name: "",
+    phone: "",
+    postal_code: "",
+    street: "",
+    number: "",
+    complement: "",
     password: "",
   });
-
   const navigate = useNavigate();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,11 +29,12 @@ const Register = () => {
 
   const fieldLabels: Record<string, string> = {
     email: "Email",
-    nome: "Name",
-    telefone: "Phone",
-    cep: "Postal Code",
-    rua: "Street",
-    numero: "Number",
+    name: "Name",
+    phone: "Phone",
+    postal_code: "Postal Code",
+    street: "Street",
+    number: "Number",
+    complement: "Add-on Address",
     password: "Password",
   };
 
@@ -112,47 +112,47 @@ const Register = () => {
           </Form.Item>
           <Form.Item
             label="Name"
-            name="nome"
+            name="name"
             rules={[{ required: true, message: "Please input your name!" }]}
           >
-            <Input id="nome" onChange={handleInputChange} />
+            <Input id="name" onChange={handleInputChange} />
           </Form.Item>
           <Form.Item
             label="Phone"
-            name="telefone"
+            name="phone"
             rules={[
               { required: true, message: "Please input your phone number!" },
             ]}
           >
-            <Input id="telefone" onChange={handleInputChange} />
+            <Input id="phone" onChange={handleInputChange} />
           </Form.Item>
           <Form.Item
             label="Postal Code"
-            name="cep"
+            name="postal_code"
             rules={[
               { required: true, message: "Please input your postal code!" },
             ]}
           >
-            <Input id="cep" onChange={handleInputChange} />
+            <Input id="postal_code" onChange={handleInputChange} />
           </Form.Item>
           <Form.Item
             label="Street"
-            name="rua"
+            name="street"
             rules={[{ required: true, message: "Please input your street!" }]}
           >
-            <Input id="rua" onChange={handleInputChange} />
+            <Input id="street" onChange={handleInputChange} />
           </Form.Item>
           <Form.Item
             label="Number"
-            name="numero"
+            name="number"
             rules={[
               { required: true, message: "Please input your house number!" },
             ]}
           >
-            <Input id="numero" onChange={handleInputChange} />
+            <Input id="number" onChange={handleInputChange} />
           </Form.Item>
-          <Form.Item label="Add-on Address" name="complemento">
-            <Input id="complemento" onChange={handleInputChange} />
+          <Form.Item label="Add-on Address" name="complement">
+            <Input id="complement" onChange={handleInputChange} />
           </Form.Item>
           <Form.Item
             label="Password"

@@ -1,10 +1,10 @@
 export interface IRegisterPostParams {
   email: string;
-  nome: string;
-  telefone: string;
-  cep: string;
-  rua: string;
-  numero: string;
-  complemento: string;
+  name: string;
+  phone: string;
+  postal_code: string;
+  street: string;
+  number: string;
+  complement: string;
   password: string;
 }
