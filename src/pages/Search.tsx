@@ -150,7 +150,9 @@ const Search: React.FC = () => {
         {pokemonData && <Render pokemonData={pokemonData} />}
       </Modal>
 
-      <button onClick={handleToggleApi}>Toggle API</button>
+      <button onClick={handleToggleApi} className="pokedex-button">
+        Toggle API
+      </button>
     </S.Container>
   );
 };
