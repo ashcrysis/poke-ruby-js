@@ -14,7 +14,7 @@ const PokemonList: React.FC<IPokemonListProps> = (props) => {
   const { pokemonList, onClickCard } = props;
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(36);
+  const [pageSize] = useState(32);
   const previousPokemonListLength = useRef(pokemonList.length);
 
   useEffect(() => {

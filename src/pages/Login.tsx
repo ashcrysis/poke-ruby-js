@@ -15,8 +15,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (values: IFormData) => {
-    console.log("Email:", values.email);
-    console.log("Password:", values.password);
     const output = await login(values.email, values.password);
     if (output) {
       navigate("/search");

@@ -6,7 +6,7 @@ import userIcon from "../../../assets/user-icon.png";
 
 interface IUserData {
   email: string;
-  nome: string;
+  name: string;
 }
 
 const UserComponent = () => {
@@ -77,7 +77,7 @@ const UserComponent = () => {
         <S.UserContent>
           <img src={userIcon} alt="User Icon" />
 
-          <span>Hello, {userData?.nome.split(" ")[0]}!</span>
+          <span>Hello, {userData?.name.split(" ")[0]}!</span>
         </S.UserContent>
       </Dropdown>
     </S.UserContainer>
