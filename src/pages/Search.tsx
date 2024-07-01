@@ -1,8 +1,8 @@
-import React, { useState, useEffect, ChangeEvent, Fragment } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { Modal } from "antd";
-
+import axios from "axios";
 import Header from "../components/Header/index.tsx";
 import Render from "../components/PokemonData/index.tsx";
 import PokemonList from "../components/PokemonList/index.tsx";
@@ -10,6 +10,7 @@ import { fetchAllPokemons } from "../services/search.ts";
 import "../App.css";
 import * as S from "../styles/search.styles.ts";
 import SearchBar from "../components/SearchBar/index.tsx";
+
 export interface Pokemon {
   name: string;
   url: string;
@@ -113,6 +114,21 @@ const Search: React.FC = () => {
       console.error("Error fetching Pokémon data:", error);
     }
   };
+  const handleToggleApi = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/v2/pokemons/toggle_api`,
+        {
+          headers: {
+            Authorization: `Bearer ${authorizationHeader}`,
+          },
+        }
+      );
+      window.location.reload();
+    } catch (error) {
+      console.error("Error toggling API:", error);
+    }
+  };
 
   return (
     <S.Container>
@@ -133,6 +149,8 @@ const Search: React.FC = () => {
       >
         {pokemonData && <Render pokemonData={pokemonData} />}
       </Modal>
+
+      <button onClick={handleToggleApi}>Toggle API</button>
     </S.Container>
   );
 };
