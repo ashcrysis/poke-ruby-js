@@ -3,13 +3,14 @@ import { Dropdown, Menu, Tooltip } from "antd";
 import * as S from "../styles.ts";
 // @ts-ignore
 import userIcon from "../../../assets/user-icon.png";
-
+import axios from "axios";
 interface IUserData {
   email: string;
   name: string;
 }
 
 const UserComponent = () => {
+  let authorizationHeader = localStorage.getItem("authorizationHeader");
   const [userData, setUserData] = useState<IUserData>();
 
   useEffect(() => {
@@ -48,6 +49,21 @@ const UserComponent = () => {
         console.error("Error logging out:", error);
       });
   };
+  const handleToggleApi = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/v2/pokemons/toggle_api`,
+        {
+          headers: {
+            Authorization: `Bearer ${authorizationHeader}`,
+          },
+        }
+      );
+      window.location.reload();
+    } catch (error) {
+      console.error("Error toggling API:", error);
+    }
+  };
 
   const menu = (
     <Menu>
@@ -62,7 +78,11 @@ const UserComponent = () => {
           Favorites
         </Tooltip>
       </Menu.Item>
-
+      <Menu.Item key="toggle_api" onClick={handleToggleApi}>
+        <Tooltip title="Toggle api" placement="left">
+          Toggle api
+        </Tooltip>
+      </Menu.Item>
       <Menu.Divider />
 
       <Menu.Item key="logout" onClick={onLogout}>

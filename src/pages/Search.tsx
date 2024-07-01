@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { Modal } from "antd";
-import axios from "axios";
+
 import Header from "../components/Header/index.tsx";
 import Render from "../components/PokemonData/index.tsx";
 import PokemonList from "../components/PokemonList/index.tsx";
@@ -114,22 +114,6 @@ const Search: React.FC = () => {
       console.error("Error fetching Pokémon data:", error);
     }
   };
-  const handleToggleApi = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/v2/pokemons/toggle_api`,
-        {
-          headers: {
-            Authorization: `Bearer ${authorizationHeader}`,
-          },
-        }
-      );
-      window.location.reload();
-    } catch (error) {
-      console.error("Error toggling API:", error);
-    }
-  };
-
   return (
     <S.Container>
       <Header />
@@ -149,10 +133,6 @@ const Search: React.FC = () => {
       >
         {pokemonData && <Render pokemonData={pokemonData} />}
       </Modal>
-
-      <button onClick={handleToggleApi} className="pokedex-button">
-        Toggle API
-      </button>
     </S.Container>
   );
 };
