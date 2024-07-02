@@ -38,7 +38,6 @@ const Search: React.FC = () => {
     try {
       const decodedToken: any = jwtDecode(authorizationHeader);
       const currentTime = Date.now() / 1000;
-      console.log(decodedToken.exp);
       if (decodedToken.exp < currentTime) {
         localStorage.removeItem("authorizationHeader");
         alert("Your session has expired. Please log in again.");

@@ -12,9 +12,11 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
       const values = await form.validateFields();
 
       if (!values.password) {
-        values.password = userData.password;
+        delete values.password;
       }
-
+      if (!values.image) {
+        values.image = imageFile;
+      }
       setLoading(true);
       const token = localStorage.getItem("authorizationHeader");
       const response = await axios.put(
@@ -22,12 +24,12 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
         values,
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
       );
       setUserData(response.data);
-
       form.resetFields();
       onClose();
 
@@ -54,7 +56,7 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
   };
   return (
     <Modal
-      title="Edit User Data"
+      title="Your data"
       visible={visible}
       onOk={handleOk}
       onCancel={onClose}
