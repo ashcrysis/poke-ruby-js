@@ -10,25 +10,27 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
 
   const handleOk = async () => {
     try {
-      const values = await form.validateFields();
-
-      if (!values.password) {
-        delete values.password;
+      const formData = new FormData();
+      formData.append("user[email]", userData.email);
+      formData.append("user[name]", userData.name);
+      formData.append("user[phone]", form.getFieldValue("phone"));
+      formData.append("user[postal_code]", form.getFieldValue("postal_code"));
+      formData.append("user[street]", form.getFieldValue("street"));
+      formData.append("user[number]", form.getFieldValue("number"));
+      formData.append("user[complement]", form.getFieldValue("complement"));
+      formData.append("user[password]", form.getFieldValue("password"));
+      if (imageFile) {
+        formData.append("user[image]", imageFile);
       }
-      if (!values.image) {
-        delete values.image;
-      }
-
-      console.log("Payload being sent:", { user: values });
 
       setLoading(true);
       const token = localStorage.getItem("authorizationHeader");
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/v2/users/update/${userId}`,
-        { user: values },
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }

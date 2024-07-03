@@ -15,6 +15,7 @@ interface IUserData {
   number?: string;
   complement?: string;
   password?: string;
+  image_url?: string;
 }
 
 const UserComponent = () => {
@@ -34,8 +35,9 @@ const UserComponent = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserData(data.user);
-        setUserId(data.user.id);
+        setUserData(data.data.attributes);
+        setUserId(data.data.id);
+        console.log(data.data);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
@@ -107,7 +109,7 @@ const UserComponent = () => {
     <S.UserContainer>
       <Dropdown overlay={menu} trigger={["hover"]} placement="bottom">
         <S.UserContent>
-          <img src={userIcon} alt="User Icon" />
+          <img src={userData?.image_url} alt="User Icon" />
           <span>Hello, {userData?.name.split(" ")[0]}!</span>
         </S.UserContent>
       </Dropdown>
