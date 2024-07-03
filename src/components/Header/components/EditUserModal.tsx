@@ -7,6 +7,7 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
@@ -15,13 +16,16 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
         delete values.password;
       }
       if (!values.image) {
-        values.image = imageFile;
+        delete values.image;
       }
+
+      console.log("Payload being sent:", { user: values });
+
       setLoading(true);
       const token = localStorage.getItem("authorizationHeader");
       const response = await axios.put(
         `${process.env.REACT_APP_API_URL}/v2/users/update/${userId}`,
-        values,
+        { user: values },
         {
           headers: {
             "Content-Type": "application/json",
@@ -32,7 +36,6 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
       setUserData(response.data);
       form.resetFields();
       onClose();
-
       window.location.reload();
     } catch (error) {
       console.error("Failed to update user data:", error);
@@ -51,9 +54,11 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
       setLoading(false);
     }
   };
+
   const handleImageChange = ({ file }) => {
     setImageFile(file.originFileObj);
   };
+
   return (
     <Modal
       title="Your data"
