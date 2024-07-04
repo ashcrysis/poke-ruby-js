@@ -15,7 +15,12 @@ interface IUserData {
   number?: string;
   complement?: string;
   password?: string;
-  image_url?: string;
+  image_blob?: {
+    url: string;
+    content_type: string;
+    filename: string;
+    byte_size: number;
+  };
 }
 
 const UserComponent = () => {
@@ -43,6 +48,7 @@ const UserComponent = () => {
         console.error("Error fetching user data:", error);
       });
   }, []);
+
   const onLogout = () => {
     const token = localStorage.getItem("authorizationHeader");
     localStorage.setItem("authorizationHeader", "");
@@ -109,7 +115,15 @@ const UserComponent = () => {
     <S.UserContainer>
       <Dropdown overlay={menu} trigger={["hover"]} placement="bottom">
         <S.UserContent>
-          <img src={userData?.image_url} alt="User Icon" />
+          {userData?.image_blob ? (
+            <img
+              src={userData.image_blob.url}
+              alt="User Icon"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+          ) : (
+            <img src={userIcon} alt="User Icon" />
+          )}
           <span>Hello, {userData?.name.split(" ")[0]}!</span>
         </S.UserContent>
       </Dropdown>
