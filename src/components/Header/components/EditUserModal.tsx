@@ -19,7 +19,7 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
       formData.append("user[street]", form.getFieldValue("street"));
       formData.append("user[number]", form.getFieldValue("number"));
       formData.append("user[complement]", form.getFieldValue("complement"));
-      formData.append("user[password]", form.getFieldValue("password"));
+      //formData.append("user[password]", form.getFieldValue("password"));
       if (imageFile) {
         formData.append("user[image]", imageFile);
       }
@@ -58,10 +58,11 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
     }
   };
 
-  const handleImageChange = ({ file }) => {
-    setImageFile(file.originFileObj);
+  const handleImageChange = (file) => {
+    setImageFile(file);
     setImageSelected(true);
-    console.log(imageFile);
+    console.log(file);
+    return false;
   };
 
   return (
@@ -101,6 +102,7 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
           name="street"
           rules={[{ required: true, message: "Please input your street!" }]}
         >
+          /
           <Input />
         </Form.Item>
         <Form.Item
@@ -115,15 +117,9 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
         <Form.Item label="Complement" name="complement">
           <Input />
         </Form.Item>
-        <Form.Item label="Password" name="password">
-          <Input.Password placeholder="Enter new password or leave empty to keep the current" />
-        </Form.Item>
+
         <Form.Item label="Profile Image">
-          <Upload
-            listType="picture"
-            beforeUpload={() => false}
-            onChange={handleImageChange}
-          >
+          <Upload listType="picture" beforeUpload={handleImageChange}>
             <Button icon={<UploadOutlined />}>Upload Image</Button>
           </Upload>
         </Form.Item>
@@ -131,5 +127,5 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
     </Modal>
   );
 };
-
+//            beforeUpload={() => false}
 export default EditUserModal;
