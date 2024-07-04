@@ -7,6 +7,7 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
+  const [imageSelected, setImageSelected] = useState(false);
 
   const handleOk = async () => {
     try {
@@ -59,6 +60,8 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
 
   const handleImageChange = ({ file }) => {
     setImageFile(file.originFileObj);
+    setImageSelected(true);
+    console.log(imageFile);
   };
 
   return (
@@ -68,6 +71,7 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
       onOk={handleOk}
       onCancel={onClose}
       confirmLoading={loading}
+      okButtonProps={{ disabled: !imageSelected }}
     >
       <Form form={form} initialValues={userData}>
         <Form.Item label="Email" name="email">

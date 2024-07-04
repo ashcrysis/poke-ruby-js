@@ -15,12 +15,7 @@ interface IUserData {
   number?: string;
   complement?: string;
   password?: string;
-  image_blob?: {
-    url: string;
-    content_type: string;
-    filename: string;
-    byte_size: number;
-  };
+  image_url: string;
 }
 
 const UserComponent = () => {
@@ -40,9 +35,12 @@ const UserComponent = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserData(data.data.attributes);
+        setUserData({
+          ...data.data.attributes,
+          image_url: data.image,
+        });
         setUserId(data.data.id);
-        console.log(data.data);
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
@@ -115,9 +113,9 @@ const UserComponent = () => {
     <S.UserContainer>
       <Dropdown overlay={menu} trigger={["hover"]} placement="bottom">
         <S.UserContent>
-          {userData?.image_blob ? (
+          {userData?.image_url ? (
             <img
-              src={userData.image_blob.url}
+              src={userData.image_url}
               alt="User Icon"
               style={{ maxWidth: "100%", height: "auto" }}
             />
