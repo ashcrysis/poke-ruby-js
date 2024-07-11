@@ -14,7 +14,7 @@ const PokemonList: React.FC<IPokemonListProps> = (props) => {
   const { pokemonList, onClickCard } = props;
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(32);
+  const [pageSize] = useState(24);
   const previousPokemonListLength = useRef(pokemonList.length);
 
   useEffect(() => {
@@ -55,19 +55,6 @@ const PokemonList: React.FC<IPokemonListProps> = (props) => {
         </S.noDataContainer>
       ) : (
         <>
-          <Pagination
-            current={currentPage}
-            pageSize={pageSize}
-            total={pokemonList.length}
-            onChange={handlePageChange}
-            style={{
-              textAlign: "left",
-              marginTop: "-15px",
-              marginRight: "70vw",
-              width: "100vw",
-            }}
-            showSizeChanger={false}
-          />
           {currentPokemons.map((pokemon, index) => (
             <PokemonCard
               key={`${pokemon.name}-${index}`}
@@ -75,6 +62,20 @@ const PokemonList: React.FC<IPokemonListProps> = (props) => {
               handleClick={onClickCard}
             />
           ))}
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={pokemonList.length}
+            onChange={handlePageChange}
+            style={{
+              textAlign: "left",
+              marginTop: "24px",
+              //marginRight: "70vw",
+              width: "100vw",
+            }}
+            className="custom-pagination"
+            showSizeChanger={false}
+          />
         </>
       )}
     </S.Container>

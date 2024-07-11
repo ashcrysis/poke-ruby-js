@@ -26,5 +26,6 @@ export const UserContent = styled.div`
 
   & > img {
     width: 48px;
+    border-radius: 50%;
   }
 `;

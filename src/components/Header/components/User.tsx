@@ -1,16 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown, Menu, Tooltip } from "antd";
+import { Dropdown, Menu, Tooltip, Button } from "antd";
 import * as S from "../styles.ts";
 // @ts-ignore
 import userIcon from "../../../assets/user-icon.png";
+import axios from "axios";
+import EditUserModal from "./EditUserModal.tsx";
 
 interface IUserData {
   email: string;
   name: string;
+  phone?: string;
+  postal_code?: string;
+  street?: string;
+  number?: string;
+  complement?: string;
+  password?: string;
+  image_url: string;
 }
 
 const UserComponent = () => {
+  let authorizationHeader = localStorage.getItem("authorizationHeader");
   const [userData, setUserData] = useState<IUserData>();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [userId, setUserId] = useState<string>();
 
   useEffect(() => {
     const token = localStorage.getItem("authorizationHeader");
@@ -23,7 +35,12 @@ const UserComponent = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUserData(data);
+        setUserData({
+          ...data.data.attributes,
+          image_url: data.image,
+        });
+        setUserId(data.data.id);
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
@@ -49,22 +66,43 @@ const UserComponent = () => {
       });
   };
 
+  const handleToggleApi = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/v2/pokemons/toggle_api`,
+        {
+          headers: {
+            Authorization: `Bearer ${authorizationHeader}`,
+          },
+        }
+      );
+      window.location.reload();
+    } catch (error) {
+      console.error("Error toggling API:", error);
+    }
+  };
+
   const menu = (
     <Menu>
-      <Menu.Item key="meus-dados" disabled>
-        <Tooltip title="Soon!" placement="left">
+      <Menu.Item key="meus-dados" onClick={() => setIsModalVisible(true)}>
+        <Tooltip title="Edit your data" placement="left">
           My data
         </Tooltip>
       </Menu.Item>
-
       <Menu.Item key="favoritos" disabled>
         <Tooltip title="Soon!" placement="left">
           Favorites
         </Tooltip>
       </Menu.Item>
-
+      <Menu.Item key="toggle_api" onClick={handleToggleApi}>
+        <Tooltip
+          title="Hot swap between local Pokemon repository and Pokeapi data"
+          placement="left"
+        >
+          Toggle api
+        </Tooltip>
+      </Menu.Item>
       <Menu.Divider />
-
       <Menu.Item key="logout" onClick={onLogout}>
         Log Off
       </Menu.Item>
@@ -75,11 +113,25 @@ const UserComponent = () => {
     <S.UserContainer>
       <Dropdown overlay={menu} trigger={["hover"]} placement="bottom">
         <S.UserContent>
-          <img src={userIcon} alt="User Icon" />
-
+          {userData?.image_url ? (
+            <img
+              src={userData.image_url}
+              alt="User Icon"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
+          ) : (
+            <img src={userIcon} alt="User Icon" />
+          )}
           <span>Hello, {userData?.name.split(" ")[0]}!</span>
         </S.UserContent>
       </Dropdown>
+      <EditUserModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        userData={userData}
+        userId={userId}
+        setUserData={setUserData}
+      />
     </S.UserContainer>
   );
 };

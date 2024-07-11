@@ -53,9 +53,11 @@ const Register = () => {
     }
 
     try {
-      const output = await register(formData);
-      if (output) {
+      const result = await register(formData);
+      if (result.success) {
         navigate("/");
+      } else {
+        setError(result.message);
       }
     } catch (error) {
       setError("Registration failed, please try again.");
