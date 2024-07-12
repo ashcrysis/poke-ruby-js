@@ -1,14 +1,18 @@
-FROM node:18-alpine3.20 as BUILD
+FROM node:18-alpine3.20 as build
 
 WORKDIR /app
-COPY package.json .
+COPY package.json yarn.lock ./
 RUN yarn install
 
 COPY . .
 RUN yarn build
 
-FROM nginx:latest as DEPLOY
+FROM node:18-alpine3.20
+
+WORKDIR /app
+RUN yarn global add http-server
+
+COPY --from=build /app/build /app/build
 
 EXPOSE 80
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=BUILD /app/build/. /usr/share/nginx/html/
+CMD ["http-server", "build", "-p", "80"]
