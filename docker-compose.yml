@@ -5,6 +5,6 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: Dockerfile.txt
+      dockerfile: Dockerfile
     ports:
       - "80:80"
