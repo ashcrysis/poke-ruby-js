@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, Alert } from "antd";
-import "../App.css";
+
 import { login } from "../services/login.ts";
+
+import Input from "../components/Input/index.tsx";
+
+import "../App.css";
+import { Form, Formik } from "formik";
+import { loginInitialValues } from "../utils/initialValues.ts";
+import { loginSchema } from "../utils/validationSchemas.ts";
+import { Button } from "antd";
 
 interface IFormData {
   email: string;
   password: string;
-  username?: string;
 }
 
 const Login = () => {
@@ -24,6 +30,7 @@ const Login = () => {
   };
 
   const onFinish = (values: IFormData) => {
+    console.log({ values });
     handleLogin(values);
   };
 
@@ -39,61 +46,33 @@ const Login = () => {
       <div className="pokedex-content">
         <h2 className="pokedex-title">Login</h2>
 
-        <Form
-          name="login"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
+        <Formik
+          initialValues={loginInitialValues}
+          validationSchema={loginSchema}
+          onSubmit={onFinish}
         >
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
-          >
-            <Input
-              id="email"
-              style={{
-                width: "24vh",
-              }}
-            />
-          </Form.Item>
+          {() => (
+            <Form>
+              <Input label="Email" name="email" />
 
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password
-              id="password"
-              style={{
-                width: "24vh",
-              }}
-            />
-          </Form.Item>
-          {error && (
-            <Alert
-              message={error}
-              type="error"
-              showIcon
-              closable
-              onClose={handleClose}
-            />
+              <Input label="Password" name="password" type="password" />
+
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="pokedex-button"
+              >
+                Login
+              </Button>
+              <Button
+                onClick={() => navigate("/register")}
+                className="pokedex-button"
+              >
+                Don't have an account? Register
+              </Button>
+            </Form>
           )}
-          <Button type="primary" htmlType="submit" className="pokedex-button">
-            Login
-          </Button>
-          <Button
-            onClick={() => navigate("/register")}
-            className="pokedex-button"
-          >
-            Don't have an account? Register
-          </Button>
-
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}></Form.Item>
-        </Form>
+        </Formik>
       </div>
     </div>
   );
