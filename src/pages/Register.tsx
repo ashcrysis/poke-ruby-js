@@ -94,10 +94,16 @@ const Register = () => {
                 type="primary"
                 htmlType="submit"
                 className="pokedex-button"
+                danger={true}
               >
                 Register
               </Button>
-              <Button onClick={() => navigate("/")} className="pokedex-button">
+              <Button
+                onClick={() => navigate("/")}
+                className="pokedex-button"
+                type="primary"
+                danger={true}
+              >
                 Have an account? Login
               </Button>
             </Form>
