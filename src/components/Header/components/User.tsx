@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, Menu, Tooltip, Button } from "antd";
 import * as S from "../styles.ts";
-// @ts-ignore
+//@ts-ignore
 import userIcon from "../../../assets/user-icon.png";
 import axios from "axios";
 import EditUserModal from "./EditUserModal.tsx";
@@ -19,8 +19,11 @@ interface IUserData {
 }
 
 const UserComponent = () => {
-  let authorizationHeader = localStorage.getItem("authorizationHeader");
-  const [userData, setUserData] = useState<IUserData>();
+  const [userData, setUserData] = useState<IUserData>({
+    email: "",
+    name: "",
+    image_url: "",
+  });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userId, setUserId] = useState<string>();
 
@@ -72,7 +75,9 @@ const UserComponent = () => {
         `${process.env.REACT_APP_API_URL}/v2/pokemons/toggle_api`,
         {
           headers: {
-            Authorization: `Bearer ${authorizationHeader}`,
+            Authorization: `Bearer ${localStorage.getItem(
+              "authorizationHeader"
+            )}`,
           },
         }
       );
@@ -125,13 +130,15 @@ const UserComponent = () => {
           <span>Hello, {userData?.name.split(" ")[0]}!</span>
         </S.UserContent>
       </Dropdown>
-      <EditUserModal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        userData={userData}
-        userId={userId}
-        setUserData={setUserData}
-      />
+      {userData && (
+        <EditUserModal
+          visible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          userData={userData}
+          userId={userId}
+          setUserData={setUserData}
+        />
+      )}
     </S.UserContainer>
   );
 };
