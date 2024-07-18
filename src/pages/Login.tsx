@@ -61,7 +61,6 @@ const Login = () => {
                 type="primary"
                 htmlType="submit"
                 className="pokedex-button"
-                danger={true}
               >
                 Login
               </Button>
@@ -69,7 +68,6 @@ const Login = () => {
                 onClick={() => navigate("/register")}
                 type="primary"
                 className="pokedex-button"
-                danger={true}
               >
                 Don't have an account? Register
               </Button>

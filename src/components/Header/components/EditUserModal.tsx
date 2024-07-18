@@ -152,12 +152,7 @@ const EditUserModal: React.FC<IEditUserModalProps> = ({
             </Form.Item>
 
             <div style={{ textAlign: "right" }}>
-              <Button
-                key="back"
-                onClick={onClose}
-                style={{ marginRight: 8 }}
-                danger={true}
-              >
+              <Button key="back" onClick={onClose} style={{ marginRight: 8 }}>
                 Cancel
               </Button>
               <Button
@@ -165,7 +160,6 @@ const EditUserModal: React.FC<IEditUserModalProps> = ({
                 htmlType="submit"
                 loading={loading}
                 disabled={!imageSelected || !isFormDirty(values)}
-                danger={true}
               >
                 Save
               </Button>
