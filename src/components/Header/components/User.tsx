@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, Menu, Tooltip, Button } from "antd";
+import { useNavigate } from "react-router-dom";
+
 import * as S from "../styles.ts";
 //@ts-ignore
 import userIcon from "../../../assets/user-icon.png";
@@ -19,6 +21,7 @@ interface IUserData {
 }
 
 const UserComponent = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState<IUserData>({
     email: "",
     name: "",
@@ -86,12 +89,20 @@ const UserComponent = () => {
       console.error("Error toggling API:", error);
     }
   };
-
+  const profile = () => {
+    navigate("/profile");
+  };
   const menu = (
     <Menu>
-      <Menu.Item key="meus-dados" onClick={() => setIsModalVisible(true)}>
-        <Tooltip title="Edit your data" placement="left">
-          My data
+      <Menu.Item key="meus-dados">
+        <Tooltip title="Edit your profile" placement="left">
+          <span
+            onClick={() => {
+              profile();
+            }}
+          >
+            Edit Profile
+          </span>
         </Tooltip>
       </Menu.Item>
       <Menu.Item key="favoritos" disabled>
@@ -130,15 +141,6 @@ const UserComponent = () => {
           <span>Hello, {userData?.name.split(" ")[0]}!</span>
         </S.UserContent>
       </Dropdown>
-      {userData && (
-        <EditUserModal
-          visible={isModalVisible}
-          onClose={() => setIsModalVisible(false)}
-          userData={userData}
-          userId={userId}
-          setUserData={setUserData}
-        />
-      )}
     </S.UserContainer>
   );
 };

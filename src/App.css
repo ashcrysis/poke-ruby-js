@@ -21,6 +21,7 @@
   background-image: url("./assets/logo.png");
   background-size: cover;
   margin-top: -16px;
+  cursor: pointer;
 }
 
 .pokedex-input {

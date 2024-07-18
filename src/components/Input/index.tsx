@@ -9,16 +9,17 @@ export interface IInputProps {
   name: string;
   type?: string;
   disable?: boolean;
+  style?: React.CSSProperties;
 }
 
 const Input: React.FC<IInputProps> = (props) => {
-  const { label, name, type, disable } = props;
+  const { label, name, type, disable, style } = props;
 
   const [field, meta, helpers] = useField(props);
 
   return (
     <S.InputContainer>
-      <Typography.Text>{label}</Typography.Text>
+      <Typography.Text style={style}>{label}</Typography.Text>
 
       <AntdInput
         {...field}
@@ -27,7 +28,9 @@ const Input: React.FC<IInputProps> = (props) => {
         disabled={disable || false}
       />
 
-      <Typography.Text type="danger">{meta.error}</Typography.Text>
+      <Typography.Text type="danger" style={style}>
+        {meta.error}
+      </Typography.Text>
     </S.InputContainer>
   );
 };

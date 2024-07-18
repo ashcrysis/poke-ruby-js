@@ -4,6 +4,7 @@ import { ConfigProvider } from "antd";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import Search from "./pages/Search.tsx";
+import Profile from "./pages/Profile.tsx";
 
 import "./App.css";
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Router>
       </div>
