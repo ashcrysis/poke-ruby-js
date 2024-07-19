@@ -97,7 +97,6 @@ const Profile: React.FC = () => {
     navigate("/");
     return <></>;
   }
-
   const handleOk = async (values: any) => {
     try {
       const formData = new FormData();
@@ -112,7 +111,27 @@ const Profile: React.FC = () => {
       if (imageFile) {
         formData.append("user[image]", imageFile);
       }
+      const newUserData = {
+        email: values.email,
+        name: values.name,
+        phone: values.phone,
+        postal_code: values.postal_code,
+        street: values.street,
+        number: values.number,
+        complement: values.complement,
+        image_url: imageFile ? imageFile.name : userData.image_url,
+      };
+      const isDataChanged = Object.keys(newUserData).some(
+        (key) => newUserData[key] !== userData[key]
+      );
 
+      if (!isDataChanged) {
+        message.info("No profile changes detected.");
+        setTimeout(() => {
+          navigate("/search");
+        }, 1000);
+        return;
+      }
       setLoading(true);
       const token = localStorage.getItem("authorizationHeader");
       const response = await axios.put(
@@ -126,7 +145,6 @@ const Profile: React.FC = () => {
         }
       );
       setUserData(response.data);
-      window.location.reload();
     } catch (error) {
       console.error("Failed to update user data:", error);
       if (error.response) {
@@ -143,6 +161,9 @@ const Profile: React.FC = () => {
     } finally {
       setLoading(false);
     }
+    setTimeout(() => {
+      navigate("/search");
+    }, 1000);
   };
 
   const handleImageChange = (file: File) => {
@@ -252,13 +273,7 @@ const Profile: React.FC = () => {
                   >
                     Cancel
                   </Button>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    loading={loading}
-                    disabled={!imageSelected}
-                    danger
-                  >
+                  <Button type="primary" htmlType="submit" loading={loading}>
                     Save
                   </Button>
                 </div>
