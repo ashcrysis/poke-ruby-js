@@ -184,6 +184,7 @@ const Profile: React.FC = () => {
     setImageFile(null);
     setImagePreview(userData.image_url);
     setImageSelected(false);
+    navigate("/search");
   };
 
   return (
