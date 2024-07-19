@@ -236,34 +236,40 @@ const Profile: React.FC = () => {
                   label="Email"
                   name="email"
                   disable={true}
-                  style={{ color: "white" }}
+                  general_style={{ color: "white" }}
+                  input_style={{ color: "white" }}
                 />
                 <Input
                   label="Name"
                   name="name"
                   disable={true}
-                  style={{ color: "white" }}
+                  general_style={{ color: "white" }}
+                  input_style={{ color: "white" }}
                 />
-                <Input label="Phone" name="phone" style={{ color: "white" }} />
+                <Input
+                  label="Phone"
+                  name="phone"
+                  general_style={{ color: "white" }}
+                />
                 <Input
                   label="Postal Code"
                   name="postal_code"
-                  style={{ color: "white" }}
+                  general_style={{ color: "white" }}
                 />
                 <Input
                   label="Street"
                   name="street"
-                  style={{ color: "white" }}
+                  general_style={{ color: "white" }}
                 />
                 <Input
                   label="Number"
                   name="number"
-                  style={{ color: "white" }}
+                  general_style={{ color: "white" }}
                 />
                 <Input
                   label="Complement"
                   name="complement"
-                  style={{ color: "white" }}
+                  general_style={{ color: "white" }}
                 />
                 <div style={{ textAlign: "right" }}>
                   <Button
