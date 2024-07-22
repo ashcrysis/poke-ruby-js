@@ -202,7 +202,7 @@ const Profile: React.FC = () => {
           <h4>Profile Image</h4>
           <Form.Item>
             <Upload
-              listType="picture-card"
+              listType="picture-circle"
               showUploadList={false}
               beforeUpload={handleImageChange}
             >
@@ -213,9 +213,14 @@ const Profile: React.FC = () => {
                 alt="Profile Image"
               />
             </Upload>
+            <Upload showUploadList={false} beforeUpload={handleImageChange}>
+              <Button icon={<UploadOutlined />} style={{ marginTop: "24px" }}>
+                Click to Upload
+              </Button>
+            </Upload>
           </Form.Item>
         </S.Greyed>
-        <S.Greyed>
+        <S.Greyed style={{ padding: "24px 32px" }}>
           <Formik
             enableReinitialize
             initialValues={{
@@ -271,7 +276,7 @@ const Profile: React.FC = () => {
                   name="complement"
                   general_style={{ color: "white" }}
                 />
-                <div style={{ textAlign: "right" }}>
+                <div style={{ textAlign: "right", marginTop: "18px" }}>
                   <Button
                     key="back"
                     onClick={handleCancel}
