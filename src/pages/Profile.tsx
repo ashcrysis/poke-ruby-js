@@ -186,18 +186,11 @@ const Profile: React.FC = () => {
     setImageSelected(false);
     navigate("/search");
   };
-
   return (
     <S.Container>
       <Header />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "100px",
-        }}
-      >
-        <S.Greyed style={{ height: "340px", color: "white" }}>
+      <div className="displayFlexCenter">
+        <S.Greyed>
           <h2>{userData.name}</h2>
           <h4>Profile Image</h4>
           <Form.Item>
@@ -220,7 +213,7 @@ const Profile: React.FC = () => {
             </Upload>
           </Form.Item>
         </S.Greyed>
-        <S.Greyed style={{ padding: "24px 32px" }}>
+        <S.GreyedPad>
           <Formik
             enableReinitialize
             initialValues={{
@@ -256,32 +249,43 @@ const Profile: React.FC = () => {
                   name="phone"
                   general_style={{ color: "white" }}
                 />
-                <Input
-                  label="Postal Code"
-                  name="postal_code"
-                  general_style={{ color: "white" }}
-                />
-                <Input
-                  label="Street"
-                  name="street"
-                  general_style={{ color: "white" }}
-                />
-                <Input
-                  label="Number"
-                  name="number"
-                  general_style={{ color: "white" }}
-                />
-                <Input
-                  label="Complement"
-                  name="complement"
-                  general_style={{ color: "white" }}
-                />
-                <div style={{ textAlign: "right", marginTop: "18px" }}>
+                <div className="form-grid">
+                  <div className="form-grid-item">
+                    <Input
+                      label="Postal Code"
+                      name="postal_code"
+                      general_style={{ color: "white" }}
+                    />
+                  </div>
+                  <div className="form-grid-item-two-thirds">
+                    <Input
+                      label="Street"
+                      name="street"
+                      general_style={{ color: "white" }}
+                    />
+                  </div>
+                  <div className="form-grid-item-two-thirds">
+                    <Input
+                      label="Number"
+                      name="number"
+                      general_style={{ color: "white" }}
+                    />
+                  </div>
+                  <div className="form-grid-item">
+                    <Input
+                      label="Complement"
+                      name="complement"
+                      general_style={{ color: "white" }}
+                    />
+                  </div>
+                  <div className="form-grid-item-full" />
+                </div>
+                <div className="footerButtonHolder">
                   <Button
                     key="back"
                     onClick={handleCancel}
-                    style={{ marginRight: 8 }}
                     danger
+                    className="footer_buttons"
                   >
                     Cancel
                   </Button>
@@ -292,10 +296,9 @@ const Profile: React.FC = () => {
               </Form>
             )}
           </Formik>
-        </S.Greyed>
+        </S.GreyedPad>
       </div>
     </S.Container>
   );
 };
-
 export default Profile;

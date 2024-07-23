@@ -23,6 +23,82 @@
   margin-top: -16px;
   cursor: pointer;
 }
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.footerButtonHolder {
+  text-align: right;
+  margin-top: 18px;
+}
+.footer_buttons {
+  margin-right: 8px;
+}
+.displayFlexCenter {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+.profile-content {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.profile-image-container {
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.upload-button {
+  margin-top: 10px;
+}
+
+.profile-form-container {
+  width: 400px;
+}
+
+.input-disabled {
+  cursor: not-allowed;
+}
+
+.input {
+  margin-bottom: 10px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.form-grid-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-grid-item-two-thirds {
+  grid-column: span 2;
+}
+
+.form-grid-item-full {
+  grid-column: span 3;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-button {
+  margin-right: 10px;
+}
 
 .pokedex-input {
   width: calc(100% - 20px);

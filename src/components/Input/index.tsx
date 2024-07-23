@@ -11,15 +11,17 @@ export interface IInputProps {
   disable?: boolean;
   general_style?: React.CSSProperties;
   input_style?: React.CSSProperties;
+  className?: string;
 }
 
 const Input: React.FC<IInputProps> = (props) => {
-  const { label, name, type, disable, general_style, input_style } = props;
+  const { label, name, type, disable, general_style, input_style, className } =
+    props;
 
   const [field, meta, helpers] = useField(props);
 
   return (
-    <S.InputContainer>
+    <S.InputContainer className={className}>
       <Typography.Text style={general_style}>{label}</Typography.Text>
 
       <AntdInput
