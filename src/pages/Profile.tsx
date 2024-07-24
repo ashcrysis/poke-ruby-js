@@ -249,6 +249,11 @@ const Profile: React.FC = () => {
                   name="phone"
                   general_style={{ color: "white" }}
                 />
+                <Input
+                  label="Street"
+                  name="street"
+                  general_style={{ color: "white" }}
+                />
                 <div className="form-grid">
                   <div className="form-grid-item">
                     <Input
@@ -257,14 +262,7 @@ const Profile: React.FC = () => {
                       general_style={{ color: "white" }}
                     />
                   </div>
-                  <div className="form-grid-item-two-thirds">
-                    <Input
-                      label="Street"
-                      name="street"
-                      general_style={{ color: "white" }}
-                    />
-                  </div>
-                  <div className="form-grid-item-two-thirds">
+                  <div className="form-grid-item">
                     <Input
                       label="Number"
                       name="number"
