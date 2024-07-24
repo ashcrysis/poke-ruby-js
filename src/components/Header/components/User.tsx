@@ -7,7 +7,7 @@ import * as S from "../styles.ts";
 import userIcon from "../../../assets/user-icon.png";
 import axios from "axios";
 import EditUserModal from "./EditUserModal.tsx";
-
+import { message } from "antd";
 interface IUserData {
   email: string;
   name: string;
@@ -46,10 +46,9 @@ const UserComponent = () => {
           image_url: data.image,
         });
         setUserId(data.data.id);
-        console.log(data);
       })
       .catch((error) => {
-        console.error("Error fetching user data:", error);
+        message.error("Error fetching user data:", error);
       });
   }, []);
 
@@ -68,7 +67,7 @@ const UserComponent = () => {
         window.location.href = "/";
       })
       .catch((error) => {
-        console.error("Error logging out:", error);
+        message.error("Error logging out:", error);
       });
   };
 
@@ -86,7 +85,7 @@ const UserComponent = () => {
       );
       window.location.reload();
     } catch (error) {
-      console.error("Error toggling API:", error);
+      message.error("Error toggling API:", error);
     }
   };
   const profile = () => {

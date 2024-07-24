@@ -1,6 +1,6 @@
 import axios from "axios";
 import { IRegisterPostParams } from "../types/register";
-
+import { message } from "antd";
 export async function register(params: IRegisterPostParams) {
   try {
     const response = await axios.post(
@@ -17,7 +17,7 @@ export async function register(params: IRegisterPostParams) {
 
     return { success: false, message: response.data.results };
   } catch (error: any) {
-    console.error("Error:", error);
+    message.error("Error:", error);
 
     if (error.response) {
       switch (error.response.status) {

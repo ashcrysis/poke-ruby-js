@@ -2,6 +2,12 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
+  & form span.ant-typography {
+    color: white;
+  }
+  & form input.ant-input-disabled {
+    color: white;
+  }
 `;
 
 export const Greyed = styled.div`

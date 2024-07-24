@@ -96,7 +96,7 @@ const EditUserModal: React.FC<IEditUserModalProps> = ({
       onClose();
       window.location.reload();
     } catch (error) {
-      console.error("Failed to update user data:", error);
+      message.error("Failed to update user data:", error);
       if (error.response) {
         message.error(
           `Error: ${
@@ -116,7 +116,6 @@ const EditUserModal: React.FC<IEditUserModalProps> = ({
   const handleImageChange = (file: File) => {
     setImageFile(file);
     setImageSelected(true);
-    console.log(file);
     return false;
   };
 

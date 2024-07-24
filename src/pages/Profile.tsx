@@ -12,7 +12,7 @@ import Header from "../components/Header/index.tsx";
 
 import "../App.css";
 import * as S from "../styles/search.styles.ts";
-
+import { profileSchema } from "../utils/validationSchemas.ts";
 interface IUserData {
   email: string;
   name: string;
@@ -59,17 +59,9 @@ const Profile: React.FC = () => {
         setUserId(data.data.id);
       })
       .catch((error) => {
-        console.error("Error fetching user data:", error);
+        message.error("Error fetching user data:", error);
       });
   }, []);
-
-  const validationSchema = Yup.object().shape({
-    phone: Yup.string().required("Please input your phone!"),
-    postal_code: Yup.string().required("Please input your postal code!"),
-    street: Yup.string().required("Please input your street!"),
-    number: Yup.string().required("Please input your house number!"),
-    complement: Yup.string(),
-  });
 
   const checkTokenExpiry = () => {
     if (!authorizationHeader) return;
@@ -83,7 +75,7 @@ const Profile: React.FC = () => {
         navigate("/");
       }
     } catch (error) {
-      console.error("Error decoding token:", error);
+      message.error("Error decoding token:", error);
     }
   };
 
@@ -146,7 +138,7 @@ const Profile: React.FC = () => {
       );
       setUserData(response.data);
     } catch (error) {
-      console.error("Failed to update user data:", error);
+      message.error("Failed to update user data:", error);
       if (error.response) {
         message.error(
           `Error: ${
@@ -225,7 +217,7 @@ const Profile: React.FC = () => {
               number: userData.number || "",
               complement: userData.complement || "",
             }}
-            validationSchema={validationSchema}
+            validationSchema={profileSchema}
             onSubmit={handleOk}
           >
             {({ handleSubmit }) => (
@@ -234,46 +226,46 @@ const Profile: React.FC = () => {
                   label="Email"
                   name="email"
                   disable={true}
-                  general_style={{ color: "white" }}
-                  input_style={{ color: "white" }}
+                  // general_style={{ color: "white" }}
+                  // input_style={{ color: "white" }}
                 />
                 <Input
                   label="Name"
                   name="name"
                   disable={true}
-                  general_style={{ color: "white" }}
-                  input_style={{ color: "white" }}
+                  // general_style={{ color: "white" }}
+                  // input_style={{ color: "white" }}
                 />
                 <Input
                   label="Phone"
                   name="phone"
-                  general_style={{ color: "white" }}
+                  // general_style={{ color: "white" }}
                 />
                 <Input
                   label="Street"
                   name="street"
-                  general_style={{ color: "white" }}
+                  // general_style={{ color: "white" }}
                 />
                 <div className="form-grid">
                   <div className="form-grid-item">
                     <Input
                       label="Postal Code"
                       name="postal_code"
-                      general_style={{ color: "white" }}
+                      // general_style={{ color: "white" }}
                     />
                   </div>
                   <div className="form-grid-item">
                     <Input
                       label="Number"
                       name="number"
-                      general_style={{ color: "white" }}
+                      // general_style={{ color: "white" }}
                     />
                   </div>
                   <div className="form-grid-item">
                     <Input
                       label="Complement"
                       name="complement"
-                      general_style={{ color: "white" }}
+                      // general_style={{ color: "white" }}
                     />
                   </div>
                   <div className="form-grid-item-full" />

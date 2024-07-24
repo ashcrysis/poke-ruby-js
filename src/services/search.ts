@@ -1,4 +1,5 @@
 import axios from "axios";
+import { message } from "antd";
 export async function fetchAllPokemons(authorizationHeader: string) {
   try {
     const response = await axios.get(
@@ -16,6 +17,6 @@ export async function fetchAllPokemons(authorizationHeader: string) {
 
     return response.data.results;
   } catch (error) {
-    console.error(error);
+    message.error(error);
   }
 }

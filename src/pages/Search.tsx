@@ -10,7 +10,7 @@ import { fetchAllPokemons } from "../services/search.ts";
 import "../App.css";
 import * as S from "../styles/search.styles.ts";
 import SearchBar from "../components/SearchBar/index.tsx";
-
+import { message } from "antd";
 export interface Pokemon {
   name: string;
   url: string;
@@ -44,7 +44,7 @@ const Search: React.FC = () => {
         navigate("/");
       }
     } catch (error) {
-      console.error("Error decoding token:", error);
+      message.error("Error decoding token:", error);
     }
   };
 
@@ -110,7 +110,7 @@ const Search: React.FC = () => {
           .join(", "),
       });
     } catch (error) {
-      console.error("Error fetching Pokémon data:", error);
+      message.error("Error fetching Pokémon data:", error);
     }
   };
   return (

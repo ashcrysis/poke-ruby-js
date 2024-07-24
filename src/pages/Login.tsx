@@ -10,7 +10,7 @@ import { Form, Formik } from "formik";
 import { loginInitialValues } from "../utils/initialValues.ts";
 import { loginSchema } from "../utils/validationSchemas.ts";
 import { Button } from "antd";
-
+import { message } from "antd";
 interface IFormData {
   email: string;
   password: string;
@@ -30,12 +30,11 @@ const Login = () => {
   };
 
   const onFinish = (values: IFormData) => {
-    console.log({ values });
     handleLogin(values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    message.error("Failed:", errorInfo);
     setError("You must fill all fields before logging in!");
   };
   const handleClose = () => {

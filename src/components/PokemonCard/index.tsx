@@ -6,7 +6,7 @@ import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter.ts";
 import { Pokemon } from "../../pages/Search";
 
 import * as S from "./styles.ts";
-
+import { message } from "antd";
 interface IPokemonCardProps {
   pokemon: Pokemon;
   handleClick: (url: string) => void;
@@ -28,7 +28,7 @@ const PokemonCard: React.FC<IPokemonCardProps> = (props) => {
         setSprite(response.data.sprites.front_default);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching the Pokémon data", error);
+        message.error("Error fetching the Pokémon data", error);
         setLoading(false);
       }
     };
