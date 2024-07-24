@@ -17,6 +17,7 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
   const [bgImageLoaded, setBgImageLoaded] = useState(false);
 
   const loadBgImg = async (type?: string) => {
+    setBgImageLoaded(false);
     const logo = await import(`../../assets/poke-bgs/${type || "normal"}.png`);
     setBgImage(logo.default);
   };
