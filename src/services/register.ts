@@ -11,7 +11,7 @@ export async function register(params: IRegisterPostParams) {
     );
 
     if (response.status === 200) {
-      alert("Registration successful!");
+      message.success("Registration successful!");
       return { success: true };
     }
 

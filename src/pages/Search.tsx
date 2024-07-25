@@ -40,7 +40,7 @@ const Search: React.FC = () => {
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
         localStorage.removeItem("authorizationHeader");
-        alert("Your session has expired. Please log in again.");
+        message.info("Your session has expired. Please log in again.");
         navigate("/");
       }
     } catch (error) {
@@ -65,7 +65,7 @@ const Search: React.FC = () => {
   }, [authorizationHeader]);
 
   if (!authorizationHeader) {
-    alert("You are not allowed to access this page before logging in.");
+    message.info("You are not allowed to access this page before logging in.");
     navigate("/");
     return <></>;
   }

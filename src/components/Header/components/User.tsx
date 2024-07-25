@@ -63,7 +63,7 @@ const UserComponent = () => {
       },
     })
       .then((response) => {
-        alert("You have logged out.");
+        message.info("You have logged out.");
         window.location.href = "/";
       })
       .catch((error) => {

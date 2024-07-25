@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header/index.tsx";
 import "../App.css";
 import * as S from "../styles/search.styles.ts";
+import { message } from "antd";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const NotFound = () => {
   };
   let authorizationHeader = localStorage.getItem("authorizationHeader");
   if (!authorizationHeader) {
-    alert("You are not allowed to access this page before logging in.");
+    message.error("You are not allowed to access this page before logging in.");
     navigate("/");
     return <></>;
   }

@@ -71,7 +71,7 @@ const Profile: React.FC = () => {
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
         localStorage.removeItem("authorizationHeader");
-        alert("Your session has expired. Please log in again.");
+        message.info("Your session has expired. Please log in again.");
         navigate("/");
       }
     } catch (error) {
@@ -85,7 +85,7 @@ const Profile: React.FC = () => {
   }, [authorizationHeader]);
 
   if (!authorizationHeader) {
-    alert("You are not allowed to access this page before logging in.");
+    message.info("You are not allowed to access this page before logging in.");
     navigate("/");
     return <></>;
   }
@@ -118,7 +118,7 @@ const Profile: React.FC = () => {
       );
 
       if (!isDataChanged) {
-        message.error("No profile changes detected.");
+        message.info("No profile changes detected.");
         setTimeout(() => {
           navigate("/search");
         }, 1000);
@@ -181,7 +181,7 @@ const Profile: React.FC = () => {
   return (
     <S.Container>
       <Header />
-      <div className="displayFlexCenter">
+      <S.FlexContainer>
         <S.Greyed>
           <h2>{userData.name}</h2>
           <h4>Profile Image</h4>
@@ -222,61 +222,23 @@ const Profile: React.FC = () => {
           >
             {({ handleSubmit }) => (
               <Form id="editUserForm" onFinish={handleSubmit}>
-                <Input
-                  label="Email"
-                  name="email"
-                  disable={true}
-                  // general_style={{ color: "white" }}
-                  // input_style={{ color: "white" }}
-                />
-                <Input
-                  label="Name"
-                  name="name"
-                  disable={true}
-                  // general_style={{ color: "white" }}
-                  // input_style={{ color: "white" }}
-                />
-                <Input
-                  label="Phone"
-                  name="phone"
-                  // general_style={{ color: "white" }}
-                />
-                <Input
-                  label="Street"
-                  name="street"
-                  // general_style={{ color: "white" }}
-                />
+                <Input label="Email" name="email" disable={true} />
+                <Input label="Name" name="name" disable={true} />
+                <Input label="Phone" name="phone" />
+                <Input label="Street" name="street" />
                 <div className="form-grid">
                   <div className="form-grid-item">
-                    <Input
-                      label="Postal Code"
-                      name="postal_code"
-                      // general_style={{ color: "white" }}
-                    />
+                    <Input label="Postal Code" name="postal_code" />
                   </div>
                   <div className="form-grid-item">
-                    <Input
-                      label="Number"
-                      name="number"
-                      // general_style={{ color: "white" }}
-                    />
+                    <Input label="Number" name="number" />
                   </div>
                   <div className="form-grid-item">
-                    <Input
-                      label="Complement"
-                      name="complement"
-                      // general_style={{ color: "white" }}
-                    />
+                    <Input label="Complement" name="complement" />
                   </div>
-                  <div className="form-grid-item-full" />
                 </div>
                 <div className="footerButtonHolder">
-                  <Button
-                    key="back"
-                    onClick={handleCancel}
-                    danger
-                    className="footer_buttons"
-                  >
+                  <Button key="back" onClick={handleCancel} danger>
                     Cancel
                   </Button>
                   <Button type="primary" htmlType="submit" loading={loading}>
@@ -287,7 +249,7 @@ const Profile: React.FC = () => {
             )}
           </Formik>
         </S.GreyedPad>
-      </div>
+      </S.FlexContainer>
     </S.Container>
   );
 };
