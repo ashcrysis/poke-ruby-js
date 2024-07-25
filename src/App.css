@@ -155,6 +155,33 @@ body {
 #pokeHW {
   display: flex;
 }
+.Container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.Container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.Container p {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.Container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ffcc00;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.Container button:hover {
+  background-color: #ff9900;
+}
 
 .pokeball-icon {
   width: 20px;
@@ -163,4 +190,10 @@ body {
   background-size: cover;
   opacity: 0.5;
   transition: transform 0.5s ease;
+}
+.pokeball-not-found-icon {
+  width: 300px;
+  height: 300px;
+  background-image: url("./assets/notFoundImage.png");
+  background-size: cover;
 }

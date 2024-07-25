@@ -118,7 +118,7 @@ const Profile: React.FC = () => {
       );
 
       if (!isDataChanged) {
-        message.info("No profile changes detected.");
+        message.error("No profile changes detected.");
         setTimeout(() => {
           navigate("/search");
         }, 1000);

@@ -5,6 +5,7 @@ import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import Search from "./pages/Search.tsx";
 import Profile from "./pages/Profile.tsx";
+import NotFound from "./pages/NotFound.tsx";
 
 import "./App.css";
 
@@ -29,6 +30,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<Search />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
       </div>
