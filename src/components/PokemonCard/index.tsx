@@ -28,7 +28,7 @@ const PokemonCard: React.FC<IPokemonCardProps> = (props) => {
         setSprite(response.data.sprites.front_default);
         setLoading(false);
       } catch (error) {
-        message.error("Error fetching the Pokémon data", error);
+        //message.error("Error fetching the Pokémon data", error);
         setLoading(false);
       }
     };
