@@ -88,10 +88,7 @@ const Register = () => {
                   complement: true,
                   password: true,
                 });
-                validateForm().then((errors) => {
-                  if (Object.keys(errors).length === 0) {
-                  }
-                });
+                validateForm();
               }}
             >
               <Input label="Email" name="email" />
