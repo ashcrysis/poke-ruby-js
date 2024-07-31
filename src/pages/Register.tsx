@@ -10,6 +10,7 @@ import * as Yup from "yup";
 
 const Register = () => {
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const registerInitialValues = {
     email: "",
@@ -68,10 +69,31 @@ const Register = () => {
         <Formik
           initialValues={registerInitialValues}
           validationSchema={validationSchema}
+          validateOnChange={false}
+          validateOnBlur={false}
           onSubmit={onFinish}
         >
-          {() => (
-            <Form>
+          {({ validateForm, setTouched }) => (
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setIsSubmitting(true);
+                setTouched({
+                  email: true,
+                  name: true,
+                  phone: true,
+                  postal_code: true,
+                  street: true,
+                  number: true,
+                  complement: true,
+                  password: true,
+                });
+                validateForm().then((errors) => {
+                  if (Object.keys(errors).length === 0) {
+                  }
+                });
+              }}
+            >
               <Input label="Email" name="email" />
               <Input label="Name" name="name" />
               <Input label="Phone" name="phone" />
