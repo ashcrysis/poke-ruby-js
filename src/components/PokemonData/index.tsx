@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter.ts";
 import { IPokemonData } from "../../pages/Search.tsx";
-import { Skeleton } from "antd";
+import { Skeleton, message } from "antd";
 
 import "../../App.css";
 
@@ -16,16 +16,18 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
   const [bgImage, setBgImage] = useState("");
   const [bgImageLoaded, setBgImageLoaded] = useState(false);
 
-  const loadBgImg = async (type?: string) => {
-    const logo = await import(`../../assets/poke-bgs/${type || "normal"}.png`);
-    setBgImage(logo.default);
-  };
+  // const loadBgImg = async (type?: string) => {
+  //   setBgImageLoaded(false);
+  //   const logo = await import(`../../assets/poke-bgs/${type || "normal"}.png`);
+  //   setBgImage(logo.default);
+  // };
 
   useEffect(() => {
+    setBgImage("");
     const fetchPokemonSpeciesData = async (pokemonName: string) => {
       const authorizationHeader = localStorage.getItem("authorizationHeader");
       if (!authorizationHeader) {
-        console.error("Authorization token not found");
+        message.error("Authorization token not found");
         return;
       }
       const apiUrl = `${
@@ -46,18 +48,15 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
 
         const data = await response.json();
         setDescription(data.description);
+        const logo = await import(
+          `../../assets/poke-bgs/${types[0] || "normal"}.png`
+        );
+        setBgImage(logo.default);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        message.error("Error fetching data:", error);
       }
     };
-
-    const fetchData = async () => {
-      await loadBgImg(types[0]);
-      await fetchPokemonSpeciesData(name);
-      setBgImageLoaded(true);
-    };
-
-    fetchData();
+    fetchPokemonSpeciesData(name);
   }, [name, types]);
 
   const displayTypes = types.slice(0, 2);
@@ -66,13 +65,13 @@ const PokemonData: React.FC<PokemonDataProps> = (props) => {
     <div id="PokemonDataDiv" role="region" aria-labelledby="pokemon-name">
       <div id="pokeDataHolder">
         <Skeleton
-          loading={!bgImageLoaded}
+          loading={!bgImage}
           active
           avatar={{ shape: "square", size: 460 }}
           className="skeleton-bg"
         />
-        <Skeleton loading={!bgImageLoaded} active className="skeleton-bg" />
-        {bgImageLoaded && (
+        <Skeleton loading={!bgImage} active className="skeleton-bg" />
+        {bgImage && (
           <>
             <img id="pokebg" src={bgImage} alt="" />
             <img id="pokeImage" src={image} alt={name} />

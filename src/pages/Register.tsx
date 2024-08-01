@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, Alert } from "antd";
+import { Form, Formik } from "formik";
+import { Alert, Button } from "antd";
 import "../App.css";
 import { register } from "../services/register.ts";
+import Input from "../components/Input/index.tsx";
 import { IRegisterPostParams } from "../types/register";
+import * as Yup from "yup";
 
 const Register = () => {
   const [error, setError] = useState<string | null>(null);
-  const [formData, setFormData] = useState<IRegisterPostParams>({
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const registerInitialValues = {
     email: "",
     name: "",
     phone: "",
@@ -16,44 +21,29 @@ const Register = () => {
     number: "",
     complement: "",
     password: "",
+  };
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email")
+      .required("Please type in your email."),
+    name: Yup.string()
+      .min(3, "Your name should have at least 3 characters.")
+      .required("Required"),
+    phone: Yup.string().required("Please type in your phone."),
+    postal_code: Yup.string().required("Please type in your postal code."),
+    street: Yup.string().required("Please type in your postal street."),
+    number: Yup.string().required(
+      "Please type in your postal code house number."
+    ),
+    complement: Yup.string(),
+    password: Yup.string()
+      .min(8, "Password too short")
+      .required("Please type in your password."),
   });
-  const navigate = useNavigate();
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [id]: value,
-    }));
-  };
-
-  const fieldLabels: Record<string, string> = {
-    email: "Email",
-    name: "Name",
-    phone: "Phone",
-    postal_code: "Postal Code",
-    street: "Street",
-    number: "Number",
-    complement: "Add-on Address",
-    password: "Password",
-  };
-
-  const handleRegister = async () => {
-    let missingFields: string[] = [];
-
-    Object.entries(formData).forEach(([key, value]) => {
-      if (!value) {
-        missingFields.push(fieldLabels[key]);
-      }
-    });
-
-    if (missingFields.length === Object.keys(formData).length) {
-      setError("Please fill in all needed fields.");
-      return;
-    }
-
+  const handleRegister = async (values: IRegisterPostParams) => {
     try {
-      const result = await register(formData);
+      const result = await register(values);
       if (result.success) {
         navigate("/");
       } else {
@@ -64,23 +54,8 @@ const Register = () => {
     }
   };
 
-  const onFinish = async (values: IRegisterPostParams) => {
-    handleRegister();
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    const missingFields = Object.keys(errorInfo.values).filter((field) =>
-      errorInfo.errorFields.some((item) => item.name[0] === field)
-    );
-
-    const missingFieldLabels = missingFields.map((field) => fieldLabels[field]);
-    if (missingFieldLabels.length > 6) {
-      setError(`Please fill in all the necessary fields`);
-    } else {
-      setError(
-        `Please fill in the following fields: ${missingFieldLabels.join(", ")}`
-      );
-    }
+  const onFinish = (values: IRegisterPostParams) => {
+    handleRegister(values);
   };
 
   const handleClose = () => {
@@ -91,102 +66,66 @@ const Register = () => {
     <div className="pokedex-container">
       <div className="pokedex-content">
         <h2 className="pokedex-title">Register</h2>
-        <Form
-          name="register"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-          style={{
-            width: "100%",
-            maxWidth: 400,
-            marginLeft: "130px",
-          }}
+        <Formik
+          initialValues={registerInitialValues}
+          validationSchema={validationSchema}
+          validateOnChange={false}
+          validateOnBlur={false}
+          onSubmit={onFinish}
         >
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
-          >
-            <Input id="email" onChange={handleInputChange} />
-          </Form.Item>
-          <Form.Item
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: "Please input your name!" }]}
-          >
-            <Input id="name" onChange={handleInputChange} />
-          </Form.Item>
-          <Form.Item
-            label="Phone"
-            name="phone"
-            rules={[
-              { required: true, message: "Please input your phone number!" },
-            ]}
-          >
-            <Input id="phone" onChange={handleInputChange} />
-          </Form.Item>
-          <Form.Item
-            label="Postal Code"
-            name="postal_code"
-            rules={[
-              { required: true, message: "Please input your postal code!" },
-            ]}
-          >
-            <Input id="postal_code" onChange={handleInputChange} />
-          </Form.Item>
-          <Form.Item
-            label="Street"
-            name="street"
-            rules={[{ required: true, message: "Please input your street!" }]}
-          >
-            <Input id="street" onChange={handleInputChange} />
-          </Form.Item>
-          <Form.Item
-            label="Number"
-            name="number"
-            rules={[
-              { required: true, message: "Please input your house number!" },
-            ]}
-          >
-            <Input id="number" onChange={handleInputChange} />
-          </Form.Item>
-          <Form.Item label="Add-on Address" name="complement">
-            <Input id="complement" onChange={handleInputChange} />
-          </Form.Item>
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password id="password" onChange={handleInputChange} />
-          </Form.Item>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            {error && (
-              <Alert
-                message={error}
-                type="error"
-                showIcon
-                closable
-                onClose={handleClose}
-              />
-            )}
-            <div style={{ display: "flex", marginLeft: "-50px" }}>
+          {({ validateForm, setTouched }) => (
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setIsSubmitting(true);
+                setTouched({
+                  email: true,
+                  name: true,
+                  phone: true,
+                  postal_code: true,
+                  street: true,
+                  number: true,
+                  complement: true,
+                  password: true,
+                });
+                validateForm();
+              }}
+            >
+              <Input label="Email" name="email" />
+              <Input label="Name" name="name" />
+              <Input label="Phone" name="phone" />
+              <Input label="Postal Code" name="postal_code" />
+              <Input label="Street" name="street" />
+              <Input label="Number" name="number" />
+              <Input label="Add-on Address" name="complement" />
+              <Input label="Password" name="password" type="password" />
+
+              {error && (
+                <Alert
+                  message={error}
+                  type="error"
+                  showIcon
+                  closable
+                  onClose={handleClose}
+                />
+              )}
               <Button
-                className="pokedex-button"
                 type="primary"
                 htmlType="submit"
+                className="pokedex-button"
               >
                 Register
               </Button>
-              <Button onClick={() => navigate("/")} className="pokedex-button">
+              <Button
+                onClick={() => navigate("/")}
+                className="pokedex-button"
+                type="primary"
+              >
                 Have an account? Login
               </Button>
-            </div>
-          </Form.Item>
-        </Form>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );

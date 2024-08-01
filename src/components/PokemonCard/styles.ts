@@ -48,10 +48,10 @@ export const Container = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: calc((100% / 3) - 42px);
+    width: calc((100% / 2) - 42px);
   }
 
   @media (max-width: 480px) {
-    width: calc((100% / 2) - 42px);
+    width: calc((100% / 1) - 42px);
   }
 `;

@@ -10,7 +10,7 @@ import { fetchAllPokemons } from "../services/search.ts";
 import "../App.css";
 import * as S from "../styles/search.styles.ts";
 import SearchBar from "../components/SearchBar/index.tsx";
-
+import { message } from "antd";
 export interface Pokemon {
   name: string;
   url: string;
@@ -40,11 +40,11 @@ const Search: React.FC = () => {
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
         localStorage.removeItem("authorizationHeader");
-        alert("Your session has expired. Please log in again.");
+        message.info("Your session has expired. Please log in again.");
         navigate("/");
       }
     } catch (error) {
-      console.error("Error decoding token:", error);
+      message.error("Error decoding token:", error);
     }
   };
 
@@ -65,7 +65,7 @@ const Search: React.FC = () => {
   }, [authorizationHeader]);
 
   if (!authorizationHeader) {
-    alert("You are not allowed to access this page before logging in.");
+    message.info("You are not allowed to access this page before logging in.");
     navigate("/");
     return <></>;
   }
@@ -110,7 +110,7 @@ const Search: React.FC = () => {
           .join(", "),
       });
     } catch (error) {
-      console.error("Error fetching Pokémon data:", error);
+      message.error("Error fetching Pokémon data:", error);
     }
   };
   return (

@@ -4,7 +4,9 @@ import PokemonCard from "../PokemonCard/index.tsx";
 import { Skeleton, Empty, Pagination } from "antd";
 import * as S from "./styles.ts";
 import "../../App.css";
-
+//@ts-ignore
+import whosthatImage from "../../assets/whosthat.jpeg";
+//import whosthatImage1 from "../../assets/image 5.png";
 interface IPokemonListProps {
   pokemonList: Pokemon[];
   onClickCard: (url: string) => void;
@@ -51,7 +53,11 @@ const PokemonList: React.FC<IPokemonListProps> = (props) => {
         </>
       ) : pokemonList.length === 0 ? (
         <S.noDataContainer>
-          <Empty description="No Pokémon found" className="noData" />
+          <Empty
+            image={whosthatImage}
+            description="No Pokémon found"
+            className="noData"
+          />
         </S.noDataContainer>
       ) : (
         <>

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, Menu, Tooltip, Button } from "antd";
+import { useNavigate } from "react-router-dom";
+
 import * as S from "../styles.ts";
-// @ts-ignore
+//@ts-ignore
 import userIcon from "../../../assets/user-icon.png";
 import axios from "axios";
 import EditUserModal from "./EditUserModal.tsx";
-
+import { message } from "antd";
 interface IUserData {
   email: string;
   name: string;
@@ -19,8 +21,12 @@ interface IUserData {
 }
 
 const UserComponent = () => {
-  let authorizationHeader = localStorage.getItem("authorizationHeader");
-  const [userData, setUserData] = useState<IUserData>();
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState<IUserData>({
+    email: "",
+    name: "",
+    image_url: "",
+  });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userId, setUserId] = useState<string>();
 
@@ -40,10 +46,9 @@ const UserComponent = () => {
           image_url: data.image,
         });
         setUserId(data.data.id);
-        console.log(data);
       })
       .catch((error) => {
-        console.error("Error fetching user data:", error);
+        message.error("Error fetching user data:", error);
       });
   }, []);
 
@@ -58,11 +63,11 @@ const UserComponent = () => {
       },
     })
       .then((response) => {
-        alert("You have logged out.");
+        message.info("You have logged out.");
         window.location.href = "/";
       })
       .catch((error) => {
-        console.error("Error logging out:", error);
+        message.error("Error logging out:", error);
       });
   };
 
@@ -72,21 +77,31 @@ const UserComponent = () => {
         `${process.env.REACT_APP_API_URL}/v2/pokemons/toggle_api`,
         {
           headers: {
-            Authorization: `Bearer ${authorizationHeader}`,
+            Authorization: `Bearer ${localStorage.getItem(
+              "authorizationHeader"
+            )}`,
           },
         }
       );
       window.location.reload();
     } catch (error) {
-      console.error("Error toggling API:", error);
+      message.error("Error toggling API:", error);
     }
   };
-
+  const profile = () => {
+    navigate("/profile");
+  };
   const menu = (
     <Menu>
-      <Menu.Item key="meus-dados" onClick={() => setIsModalVisible(true)}>
-        <Tooltip title="Edit your data" placement="left">
-          My data
+      <Menu.Item key="meus-dados">
+        <Tooltip title="Edit your profile" placement="left">
+          <span
+            onClick={() => {
+              profile();
+            }}
+          >
+            Edit Profile
+          </span>
         </Tooltip>
       </Menu.Item>
       <Menu.Item key="favoritos" disabled>
@@ -125,13 +140,6 @@ const UserComponent = () => {
           <span>Hello, {userData?.name.split(" ")[0]}!</span>
         </S.UserContent>
       </Dropdown>
-      <EditUserModal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        userData={userData}
-        userId={userId}
-        setUserData={setUserData}
-      />
     </S.UserContainer>
   );
 };

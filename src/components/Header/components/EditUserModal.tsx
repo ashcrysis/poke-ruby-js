@@ -1,25 +1,81 @@
 import React, { useState } from "react";
-import { Modal, Form, Input, message, Upload, Button } from "antd";
+import { Modal, message, Upload, Button, Form } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
+import * as Yup from "yup";
+import Input from "../../Input/index.tsx";
+import { Formik } from "formik";
 
-const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
-  const [form] = Form.useForm();
+interface IEditUserModalProps {
+  visible: boolean;
+  onClose: () => void;
+  userData: {
+    email: string;
+    name: string;
+    phone?: string;
+    postal_code?: string;
+    street?: string;
+    number?: string;
+    complement?: string;
+    image_url: string;
+  };
+  userId: string | undefined;
+  setUserData: (data: any) => void;
+}
+
+const EditUserModal: React.FC<IEditUserModalProps> = ({
+  visible,
+  onClose,
+  userData,
+  userId,
+  setUserData,
+}) => {
   const [loading, setLoading] = useState(false);
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageSelected, setImageSelected] = useState(false);
 
-  const handleOk = async () => {
+  const [initialValues] = useState({
+    email: userData.email,
+    name: userData.name,
+    phone: userData.phone || "",
+    postal_code: userData.postal_code || "",
+    street: userData.street || "",
+    number: userData.number || "",
+    complement: userData.complement || "",
+  });
+
+  const isFormDirty = (values: any) => {
+    return (
+      values.email !== initialValues.email ||
+      values.name !== initialValues.name ||
+      values.phone !== initialValues.phone ||
+      values.postal_code !== initialValues.postal_code ||
+      values.street !== initialValues.street ||
+      values.number !== initialValues.number ||
+      values.complement !== initialValues.complement ||
+      imageSelected
+    );
+  };
+
+  const validationSchema = Yup.object().shape({
+    phone: Yup.string().required("Please input your phone!"),
+    postal_code: Yup.string().required("Please input your postal code!"),
+    street: Yup.string().required("Please input your street!"),
+    number: Yup.string().required("Please input your house number!"),
+    complement: Yup.string(),
+  });
+
+  const handleOk = async (values: any) => {
     try {
       const formData = new FormData();
       formData.append("user[email]", userData.email);
       formData.append("user[name]", userData.name);
-      formData.append("user[phone]", form.getFieldValue("phone"));
-      formData.append("user[postal_code]", form.getFieldValue("postal_code"));
-      formData.append("user[street]", form.getFieldValue("street"));
-      formData.append("user[number]", form.getFieldValue("number"));
-      formData.append("user[complement]", form.getFieldValue("complement"));
-      //formData.append("user[password]", form.getFieldValue("password"));
+      formData.append("user[phone]", values.phone);
+      formData.append("user[postal_code]", values.postal_code);
+      formData.append("user[street]", values.street);
+      formData.append("user[number]", values.number);
+      formData.append("user[complement]", values.complement);
+
       if (imageFile) {
         formData.append("user[image]", imageFile);
       }
@@ -37,11 +93,10 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
         }
       );
       setUserData(response.data);
-      form.resetFields();
       onClose();
       window.location.reload();
     } catch (error) {
-      console.error("Failed to update user data:", error);
+      message.error("Failed to update user data:", error);
       if (error.response) {
         message.error(
           `Error: ${
@@ -58,74 +113,67 @@ const EditUserModal = ({ visible, onClose, userData, userId, setUserData }) => {
     }
   };
 
-  const handleImageChange = (file) => {
+  const handleImageChange = (file: File) => {
     setImageFile(file);
     setImageSelected(true);
-    console.log(file);
     return false;
   };
 
   return (
-    <Modal
-      title="Your data"
-      visible={visible}
-      onOk={handleOk}
-      onCancel={onClose}
-      confirmLoading={loading}
-      okButtonProps={{ disabled: !imageSelected }}
-    >
-      <Form form={form} initialValues={userData}>
-        <Form.Item label="Email" name="email">
-          <Input disabled />
-        </Form.Item>
-        <Form.Item label="Name" name="name">
-          <Input disabled />
-        </Form.Item>
-        <Form.Item
-          label="Phone"
-          name="phone"
-          rules={[{ required: true, message: "Please input your phone!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Postal Code"
-          name="postal_code"
-          rules={[
-            { required: true, message: "Please input your postal code!" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Street"
-          name="street"
-          rules={[{ required: true, message: "Please input your street!" }]}
-        >
-          /
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Number"
-          name="number"
-          rules={[
-            { required: true, message: "Please input your house number!" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Complement" name="complement">
-          <Input />
-        </Form.Item>
+    <Modal title="Your data" visible={visible} onCancel={onClose} footer={null}>
+      <Formik
+        initialValues={{
+          email: userData.email,
+          name: userData.name,
+          phone: userData.phone || "",
+          postal_code: userData.postal_code || "",
+          street: userData.street || "",
+          number: userData.number || "",
+          complement: userData.complement || "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleOk}
+      >
+        {({ values }) => (
+          <Form id="editUserForm">
+            <Input label="Email" name="email" disable={true} />
+            <Input label="Name" name="name" disable={true} />
+            <Input label="Phone" name="phone" />
+            <Input label="Postal Code" name="postal_code" />
+            <Input label="Street" name="street" />
+            <Input label="Number" name="number" />
+            <Input label="Complement" name="complement" />
 
-        <Form.Item label="Profile Image">
-          <Upload listType="picture" beforeUpload={handleImageChange}>
-            <Button icon={<UploadOutlined />}>Upload Image</Button>
-          </Upload>
-        </Form.Item>
-      </Form>
+            <Form.Item label="Profile Image">
+              <Upload listType="picture" beforeUpload={handleImageChange}>
+                <Button icon={<UploadOutlined />}>Upload Image</Button>
+              </Upload>
+            </Form.Item>
+
+            <div style={{ textAlign: "right" }}>
+              <Button
+                key="back"
+                onClick={onClose}
+                style={{ marginRight: 8 }}
+                danger={true}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                disabled={!imageSelected || !isFormDirty(values)}
+                danger={true}
+              >
+                Save
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </Modal>
   );
 };
-//            beforeUpload={() => false}
+
 export default EditUserModal;
