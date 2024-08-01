@@ -12,16 +12,19 @@ export interface IInputProps {
   general_style?: React.CSSProperties;
   input_style?: React.CSSProperties;
   className?: string;
+  required?: boolean;
 }
 
 const Input: React.FC<IInputProps> = (props) => {
-  const { label, name, type, disable, className } = props;
+  const { label, name, type, disable, className, required = true } = props;
 
   const [field, meta, helpers] = useField(props);
 
   return (
     <S.InputContainer className={className}>
-      <Typography.Text>{label}</Typography.Text>
+      <Typography.Text>{`${label}${
+        required ? "" : " (optional)"
+      }`}</Typography.Text>
 
       <AntdInput
         {...field}
@@ -30,7 +33,9 @@ const Input: React.FC<IInputProps> = (props) => {
         disabled={disable || false}
       />
 
-      <Typography.Text type="danger">{meta.error}</Typography.Text>
+      {meta.touched && meta.error && (
+        <Typography.Text type="danger">{meta.error}</Typography.Text>
+      )}
     </S.InputContainer>
   );
 };

@@ -69,8 +69,8 @@ const Register = () => {
         <Formik
           initialValues={registerInitialValues}
           validationSchema={validationSchema}
-          validateOnChange={false}
-          validateOnBlur={false}
+          // validateOnChange={false}
+          // validateOnBlur={false}
           onSubmit={onFinish}
         >
           {({ validateForm, setTouched }) => (
@@ -78,17 +78,17 @@ const Register = () => {
               onSubmit={(e) => {
                 e.preventDefault();
                 setIsSubmitting(true);
-                setTouched({
-                  email: true,
-                  name: true,
-                  phone: true,
-                  postal_code: true,
-                  street: true,
-                  number: true,
-                  complement: true,
-                  password: true,
-                });
-                validateForm();
+                // setTouched({
+                //   email: true,
+                //   name: true,
+                //   phone: true,
+                //   postal_code: true,
+                //   street: true,
+                //   number: true,
+                //   complement: true,
+                //   password: true,
+                // });
+                // validateForm();
               }}
             >
               <Input label="Email" name="email" />
@@ -97,7 +97,11 @@ const Register = () => {
               <Input label="Postal Code" name="postal_code" />
               <Input label="Street" name="street" />
               <Input label="Number" name="number" />
-              <Input label="Add-on Address" name="complement" />
+              <Input
+                label="Add-on Address"
+                name="complement"
+                required={false}
+              />
               <Input label="Password" name="password" type="password" />
 
               {error && (

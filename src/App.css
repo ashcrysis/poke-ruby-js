@@ -6,7 +6,9 @@
   height: 100vh;
   background-color: #a13232;
 }
-
+.pokedex-title {
+  color: #c62828;
+}
 .pokedex-content {
   background-color: #fff;
   padding: 20px;
@@ -30,6 +32,9 @@
 }
 .footerButtonHolder {
   text-align: right;
+  display: flex;
+  justify-content: right;
+  gap: 12px;
   margin-top: 18px;
 }
 .footer_buttons {
