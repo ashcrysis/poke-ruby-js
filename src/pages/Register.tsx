@@ -12,6 +12,8 @@ const Register = () => {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+
+  // Initial values
   const registerInitialValues = {
     email: "",
     name: "",
@@ -22,6 +24,8 @@ const Register = () => {
     complement: "",
     password: "",
   };
+
+  // Validation schema
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email")
@@ -41,7 +45,9 @@ const Register = () => {
       .required("Please type in your password."),
   });
 
+  // Handle form submission
   const handleRegister = async (values: IRegisterPostParams) => {
+    setIsSubmitting(true);
     try {
       const result = await register(values);
       if (result.success) {
@@ -52,14 +58,7 @@ const Register = () => {
     } catch (error) {
       setError("Registration failed, please try again.");
     }
-  };
-
-  const onFinish = (values: IRegisterPostParams) => {
-    handleRegister(values);
-  };
-
-  const handleClose = () => {
-    setError(null);
+    setIsSubmitting(false);
   };
 
   return (
@@ -69,28 +68,10 @@ const Register = () => {
         <Formik
           initialValues={registerInitialValues}
           validationSchema={validationSchema}
-          // validateOnChange={false}
-          // validateOnBlur={false}
-          onSubmit={onFinish}
+          onSubmit={handleRegister} // Ensure formik's onSubmit is wired up
         >
-          {({ validateForm, setTouched }) => (
-            <Form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setIsSubmitting(true);
-                // setTouched({
-                //   email: true,
-                //   name: true,
-                //   phone: true,
-                //   postal_code: true,
-                //   street: true,
-                //   number: true,
-                //   complement: true,
-                //   password: true,
-                // });
-                // validateForm();
-              }}
-            >
+          {({ errors, touched }) => (
+            <Form>
               <Input label="Email" name="email" />
               <Input label="Name" name="name" />
               <Input label="Phone" name="phone" />
@@ -105,21 +86,17 @@ const Register = () => {
               <Input label="Password" name="password" type="password" />
 
               {error && (
-                <Alert
-                  message={error}
-                  type="error"
-                  showIcon
-                  closable
-                  onClose={handleClose}
-                />
+                <Alert message={error} type="error" showIcon closable />
               )}
+
               <Button
                 type="primary"
-                htmlType="submit"
-                className="pokedex-button"
+                htmlType="submit" // Ensure the button triggers form submission
+                disabled={isSubmitting}
               >
                 Register
               </Button>
+
               <Button
                 onClick={() => navigate("/")}
                 className="pokedex-button"

@@ -48,7 +48,7 @@ const UserComponent = () => {
         setUserId(data.data.id);
       })
       .catch((error) => {
-        message.error("Error fetching user data:", error);
+        //message.error("Error fetching user data:", error);
       });
   }, []);
 

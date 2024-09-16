@@ -1,13 +1,12 @@
 import axios from "axios";
 import { IRegisterPostParams } from "../types/register";
 import { message } from "antd";
+
 export async function register(params: IRegisterPostParams) {
   try {
     const response = await axios.post(
       `${process.env.REACT_APP_API_URL}/signup`,
-      {
-        user: params,
-      }
+      params
     );
 
     if (response.status === 200) {

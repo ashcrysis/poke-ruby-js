@@ -22,6 +22,7 @@ const Login = () => {
 
   const handleLogin = async (values: IFormData) => {
     const output = await login(values.email, values.password);
+    console.log(output);
     if (output) {
       navigate("/search");
     } else {

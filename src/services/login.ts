@@ -4,7 +4,8 @@ export async function login(email: string, password: string) {
     const response = await axios.post(
       `${process.env.REACT_APP_API_URL}/login`,
       {
-        user: { email, password },
+        email,
+        password,
       },
       {
         headers: {
@@ -20,11 +21,13 @@ export async function login(email: string, password: string) {
           "authorizationHeader",
           authorizationHeader.split(" ")[1]
         );
-
+        console.log(authorizationHeader.split(" ")[1]);
         return true;
       }
     } else {
       return false;
     }
-  } catch (error) {}
+  } catch (error) {
+    return false;
+  }
 }
