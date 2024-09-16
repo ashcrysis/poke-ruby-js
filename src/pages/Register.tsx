@@ -13,7 +13,6 @@ const Register = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  // Initial values
   const registerInitialValues = {
     email: "",
     name: "",
@@ -25,7 +24,6 @@ const Register = () => {
     password: "",
   };
 
-  // Validation schema
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email")
@@ -45,7 +43,6 @@ const Register = () => {
       .required("Please type in your password."),
   });
 
-  // Handle form submission
   const handleRegister = async (values: IRegisterPostParams) => {
     setIsSubmitting(true);
     try {
@@ -68,7 +65,7 @@ const Register = () => {
         <Formik
           initialValues={registerInitialValues}
           validationSchema={validationSchema}
-          onSubmit={handleRegister} // Ensure formik's onSubmit is wired up
+          onSubmit={handleRegister}
         >
           {({ errors, touched }) => (
             <Form>
@@ -89,11 +86,7 @@ const Register = () => {
                 <Alert message={error} type="error" showIcon closable />
               )}
 
-              <Button
-                type="primary"
-                htmlType="submit" // Ensure the button triggers form submission
-                disabled={isSubmitting}
-              >
+              <Button type="primary" htmlType="submit" disabled={isSubmitting}>
                 Register
               </Button>
 
