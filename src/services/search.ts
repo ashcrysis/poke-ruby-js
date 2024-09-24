@@ -15,7 +15,7 @@ export async function fetchAllPokemons(authorizationHeader: string) {
       throw new Error("Failed to fetch Pokémon data");
     }
 
-    return response.data.results;
+    return response.data;
   } catch (error) {
     message.error(error);
   }

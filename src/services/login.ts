@@ -21,7 +21,6 @@ export async function login(email: string, password: string) {
           "authorizationHeader",
           authorizationHeader.split(" ")[1]
         );
-        console.log(authorizationHeader.split(" ")[1]);
         return true;
       }
     } else {
