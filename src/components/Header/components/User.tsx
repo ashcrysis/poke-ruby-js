@@ -43,7 +43,7 @@ const UserComponent = () => {
       .then((data) => {
         setUserData({
           ...data.data.attributes,
-          image_url: data.image,
+          image_url: data.data.attributes.image_url,
         });
         setUserId(data.data.id);
       })
